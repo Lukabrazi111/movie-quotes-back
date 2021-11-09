@@ -21,6 +21,7 @@
                     <p class="text-black text-2xl text-primary">"{{ $post->body }}"</p>
                 </div>
             </div>
+
         </section>
     </div>
 @endsection
