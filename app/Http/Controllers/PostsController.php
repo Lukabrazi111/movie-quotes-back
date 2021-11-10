@@ -9,7 +9,7 @@ class PostsController extends Controller
     public function index()
     {
         $movies = Movie::all();
-        return view('posts.index', ['movies' => $movies]);
+        return view('posts.index', ['movies' => $movies->random()]);
     }
 
     public function show(Movie $movie)
