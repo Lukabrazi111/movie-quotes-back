@@ -2,17 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Movie;
 
 class PostsController extends Controller
 {
-    public function index() {
-
-        return view('posts.index', ['posts' => $posts]);
+    public function index()
+    {
+        $movies = Movie::all();
+        return view('posts.index', ['movies' => $movies]);
     }
 
-    public function show() {
-
-        return view('posts.show', ['posts' => $posts]);
+    public function show(Movie $movie)
+    {
+        return view('posts.show', [
+            'quotes' => $movie->quotes,
+            'movie' => $movie,
+        ]);
     }
 }

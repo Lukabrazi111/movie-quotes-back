@@ -9,8 +9,8 @@ class Quote extends Model
 {
     use HasFactory;
 
-    public function movie()
+    public function movies()
     {
-        return $this->belongsTo(Movie::class, 'movie_id');
+        return $this->belongsTo(Movie::class);
     }
 }

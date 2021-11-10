@@ -16,4 +16,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [PostsController::class, 'index']);
 
-Route::get('/posts/{id}', [PostsController::class, 'show']);
+Route::get('/posts/{movie:id}', [PostsController::class, 'show']);
