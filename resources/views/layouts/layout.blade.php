@@ -9,6 +9,9 @@
     <title>Movie Quote</title>
 </head>
 <body class="bg-primary">
+<div class="flex justify-center items-center mt-6">
+    <a href="{{ route('admin.show') }}" class="text-white hover:underline">Admin Panel</a>
+</div>
 
 @yield('content')
 

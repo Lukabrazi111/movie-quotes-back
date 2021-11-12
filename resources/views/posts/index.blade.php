@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container w-full max-w-lg m-auto">
-        <section class="mt-16 text-center">
+        <section class="mt-36 text-center">
             <div class="mb-6">
                 <img class="rounded-xl" src="{{ asset('img/image.png') }}" alt="image">
             </div>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PostsController;
 use Illuminate\Support\Facades\Route;
 
@@ -17,3 +18,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [PostsController::class, 'index']);
 
 Route::get('/posts/{movie:id}', [PostsController::class, 'show'])->name('post.show');
+
+// Admin route
+Route::prefix('admin')->group(function () {
+    Route::get('/panel', [AdminController::class, 'index'])->name('admin.show');
+    Route::get('/panel/{id}/edit', [AdminController::class, 'show'])->name('admin.edit');
+    Route::put('/panel/{id}', [AdminController::class, 'update'])->name('admin.update');
+});
