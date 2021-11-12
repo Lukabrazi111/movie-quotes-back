@@ -24,4 +24,5 @@ Route::prefix('admin')->group(function () {
     Route::get('/panel', [AdminController::class, 'index'])->name('admin.show');
     Route::get('/panel/{id}/edit', [AdminController::class, 'show'])->name('admin.edit');
     Route::put('/panel/{id}', [AdminController::class, 'update'])->name('admin.update');
+    Route::get('/panel/{id}', [AdminController::class, 'destroy'])->name('admin.destroy');
 });
