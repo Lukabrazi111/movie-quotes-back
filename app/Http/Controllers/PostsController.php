@@ -3,17 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Models\Movie;
+use App\Models\Quote;
 
 class PostsController extends Controller
 {
     public function index()
     {
-        $movies = Movie::all();
-        return view('posts.index', ['movies' => $movies->random()]);
+        $quotes = Quote::all();
+
+        return view('posts.index', ['quotes' => $quotes->random()]);
     }
 
     public function show(Movie $movie)
     {
+
+//        dd($movie->quotes);
         return view('posts.show', [
             'quotes' => $movie->quotes,
             'movie' => $movie,

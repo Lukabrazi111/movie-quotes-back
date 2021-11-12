@@ -15,7 +15,7 @@ class QuoteFactory extends Factory
     {
         return [
             'quote' => $this->faker->text,
-            'thumbnail' => $this->faker->image,
+            'thumbnail' => $this->faker->image('public/storage/images', 640, 480, null, false),
             'slug' => $this->faker->slug,
             'movie_id' => $this->faker->unique()->numberBetween(1, 30),
         ];
