@@ -9,9 +9,16 @@
     <title>Movie Quote</title>
 </head>
 <body class="bg-primary">
+
 <div class="flex justify-center items-center mt-6">
-    <a href="{{ route('admin.show') }}" class="text-white hover:underline">Admin Panel</a>
+    @if(auth()->check())
+        <a href="{{ route('admin.show') }}" class="text-white hover:underline mr-4">Admin Panel</a>
+        <a href="{{ route('user.logout') }}" class="text-white hover:underline mr-4">Logout</a>
+    @else
+        <a href="{{ route('user.index') }}" class="text-white hover:underline">Login</a>
+    @endif
 </div>
+
 
 @yield('content')
 

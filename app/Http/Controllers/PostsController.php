@@ -16,8 +16,6 @@ class PostsController extends Controller
 
     public function show(Movie $movie)
     {
-
-//        dd($movie->quotes);
         return view('posts.show', [
             'quotes' => $movie->quotes,
             'movie' => $movie,

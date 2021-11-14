@@ -10,18 +10,7 @@
 </head>
 <body>
 
-@if(session('success'))
-    <div class="py-4 px-6 w-full max-w-2xl text-center m-auto mt-4 bg-green-300 text-black rounded bg-opacity-60">
-        <p class="text-xl text-">{{ session('success') }}</p>
-    </div>
-@endif
-
-@if(session('error'))
-    <div class="py-4 px-6 w-full max-w-2xl text-center m-auto mt-4 bg-red-400 text-black rounded bg-opacity-60">
-        <p class="text-xl text-">{{ session('error') }}</p>
-    </div>
-@endif
-
 @yield('content')
+
 </body>
 </html>

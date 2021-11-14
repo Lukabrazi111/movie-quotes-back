@@ -1,7 +1,12 @@
 @extends('layouts.admin-layout')
+<div class="mt-9 text-center">
+    <a href="/admin/panel" class="text-white py-2 px-4 bg-gray-500 rounded hover:bg-gray-700 transition delay-75">Go
+        Back</a>
+</div>
 
 @section('content')
     <div class="bg-gray-400 rounded p-10 w-1/2 flex flex-col justify-center items-center m-auto mt-6">
+
         <div class="text-center">
             <p class="text-xl text-gray-900">Edit Quotes</p>
         </div>

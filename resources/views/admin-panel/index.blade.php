@@ -1,5 +1,12 @@
 @extends('layouts.admin-layout')
 
+{{-- Check session with success message --}}
+@if(session('success'))
+    <div class="py-4 px-6 w-full max-w-2xl text-center m-auto mt-4 bg-green-300 text-black rounded bg-opacity-60">
+        <p class="text-xl text-">{{ session('success') }}</p>
+    </div>
+@endif
+
 @section('content')
     {{-- Admin Panel --}}
     <div class="flex justify-center items-center flex-col mt-10">
