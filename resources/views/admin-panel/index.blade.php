@@ -1,5 +1,11 @@
 @extends('layouts.admin-layout')
 
+<div class="mt-9 text-center">
+    <a href="/" class="text-white py-2 px-4 bg-gray-500 rounded hover:bg-gray-700 transition delay-75">Go
+        Back</a>
+    <a href="{{ route('admin.add-movie') }}" class="ml-2 hover:underline">Add Movie</a>
+</div>
+
 {{-- Check session with success message --}}
 @if(session('success'))
     <div class="py-4 px-6 w-full max-w-2xl text-center m-auto mt-4 bg-green-300 text-black rounded bg-opacity-60">

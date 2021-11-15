@@ -16,6 +16,32 @@ class AdminController extends Controller
         return view('admin-panel.index', ['quotes' => $quotes]);
     }
 
+    public function addMovie()
+    {
+        return view('admin-panel.add-movie');
+    }
+
+    // Add movie & quote
+    public function store(Request $request)
+    {
+        $request->validate([
+            'movie-name' => 'required',
+            'quote' => 'required',
+        ]);
+
+        $movie = new Movie;
+        $quote = new Quote;
+
+        $movie->name = $request->input('movie-name');
+        $quote->quote = $request->input('quote');
+
+        $movie->save();
+        $quote->save();
+
+        return redirect('/admin/panel')->with('success', 'Movie Added!');
+
+    }
+
     // Show movie
     public function show($id)
     {
