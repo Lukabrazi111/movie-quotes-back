@@ -19,13 +19,22 @@
     @endif
 </div>
 
-
 @yield('content')
 
 {{-- Languages --}}
 <div class="fixed top-1/2 ml-10 flex items-center justify-center flex-col gap-2">
-    <a href="#" class="text-white w-12 text-center hover:text-black hover:bg-white border p-3 rounded-full">en</a>
-    <a href="#" class="text-white text-center w-12 hover:text-black hover:bg-white border p-3 rounded-full">ka</a>
+    <form action="ka" method="post">
+        @csrf
+        <button type="submit"
+                class="text-white text-center w-12 hover:text-black hover:bg-white border p-3 rounded-full">ka
+        </button>
+    </form>
+    <form action="en" method="post">
+        @csrf
+        <button type="submit"
+                class="text-white w-12 text-center hover:text-black hover:bg-white border p-3 rounded-full">en
+        </button>
+    </form>
 </div>
 
 </body>

@@ -22,24 +22,22 @@ class AdminController extends Controller
     }
 
     // Add movie & quote
-    public function store(Request $request)
+    public function store()
     {
-        $request->validate([
+        request()->validate([
             'movie-name' => 'required',
+            'movie-name-geo' => 'required',
             'quote' => 'required',
         ]);
 
-        $movie = new Movie;
-        $quote = new Quote;
+        $movie = Movie::create(['name' => [
+            'ka' => request()->input('movie-name'),
+            'en' => request()->input('movie-name-geo'),
+        ]]);
 
-        $movie->name = $request->input('movie-name');
-        $quote->quote = $request->input('quote');
-
-        $movie->save();
-        $quote->save();
+        $quote = Quote::create(['quote' => request()->input('quote'), 'movie_id' => $movie->id]);
 
         return redirect('/admin/panel')->with('success', 'Movie Added!');
-
     }
 
     // Show movie

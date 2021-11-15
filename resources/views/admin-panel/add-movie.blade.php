@@ -6,12 +6,14 @@
         <div class="text-center">
             <p class="text-xl text-gray-900">Add Movie</p>
         </div>
-
         {{-- Edit Form --}}
         {!! Form::open(['action' => 'App\Http\Controllers\AdminController@store', 'method' => 'POST', 'class' => 'flex flex-col p-2 m-2']) !!}
 
         {{ Form::label('movie-name', 'Movie name', ['class' => 'mb-2']) }}
         {{ Form::text('movie-name', null, ['class' => 'p-2 border border-primary rounded mb-2 outline-none bg-indigo-50']) }}
+
+        {{ Form::label('movie-name-geo', 'Movie name geo', ['class' => 'mb-2']) }}
+        {{ Form::text('movie-name-geo', null, ['class' => 'p-2 border border-primary rounded mb-2 outline-none bg-indigo-50']) }}
 
         {{ Form::label('quote', 'Quote', ['class' => 'mb-2']) }}
         {{ Form::textarea('quote', null, ['class' => 'p-2 border border-primary rounded mb-2 outline-none bg-indigo-50']) }}

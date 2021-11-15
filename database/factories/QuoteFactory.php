@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Movie;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class QuoteFactory extends Factory
@@ -16,8 +17,7 @@ class QuoteFactory extends Factory
         return [
             'quote' => $this->faker->text,
             'thumbnail' => $this->faker->image('public/storage/images', 640, 480, null, false),
-            'slug' => $this->faker->slug,
-            'movie_id' => $this->faker->unique()->numberBetween(1, 30),
+            'movie_id' => Movie::factory(),
         ];
     }
 }

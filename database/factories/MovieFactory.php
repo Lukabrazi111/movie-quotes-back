@@ -14,8 +14,10 @@ class MovieFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->name,
-            'slug' => $this->faker->slug,
+            'name' => [
+              'en' => $this->faker->sentence(),
+              'ka' => $this->faker->sentence(),
+            ],
         ];
     }
 }

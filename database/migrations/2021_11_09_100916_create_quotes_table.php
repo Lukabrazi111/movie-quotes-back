@@ -18,7 +18,6 @@ class CreateQuotesTable extends Migration
             $table->foreignId('movie_id');
             $table->string('quote');
             $table->string('thumbnail')->nullable();
-            $table->string('slug')->unique();
             $table->timestamps();
         });
     }
