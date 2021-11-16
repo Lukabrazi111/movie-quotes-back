@@ -18,6 +18,9 @@
         {{ Form::label('quote', 'Quote', ['class' => 'mb-2']) }}
         {{ Form::textarea('quote', null, ['class' => 'p-2 border border-primary rounded mb-2 outline-none bg-indigo-50']) }}
 
+        {{ Form::label('quote-geo', 'Quote Geo', ['class' => 'mb-2']) }}
+        {{ Form::textarea('quote-geo', null, ['class' => 'p-2 border border-primary rounded mb-2 outline-none bg-indigo-50']) }}
+
         {{ Form::submit('Add Movie', ['class' => 'text-center text-white mt-3 bg-gray-700 rounded px-4 py-2 hover:bg-gray-600 transition cursor-pointer']) }}
 
         {!! Form::close() !!}

@@ -36,6 +36,7 @@ Route::get('/login', [UserAuthController::class, 'index'])->name('user.index');
 Route::post('/login-user', [UserAuthController::class, 'store'])->middleware('guest')->name('user.login');
 Route::get('/logout', [UserAuthController::class, 'destroy'])->middleware('auth')->name('user.logout');
 
+// Language change route
 Route::post('/{language}', [LanguageController::class, 'index'])->name('lang');
 
 // Page not found route

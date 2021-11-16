@@ -28,14 +28,24 @@ class AdminController extends Controller
             'movie-name' => 'required',
             'movie-name-geo' => 'required',
             'quote' => 'required',
+            'quote-geo' => 'required',
         ]);
 
         $movie = Movie::create(['name' => [
-            'ka' => request()->input('movie-name'),
-            'en' => request()->input('movie-name-geo'),
+            'en' => request()->input('movie-name'),
+            'ka' => request()->input('movie-name-geo'),
         ]]);
 
-        $quote = Quote::create(['quote' => request()->input('quote'), 'movie_id' => $movie->id]);
+        $quote = Quote::create(['quote' => [
+            'en' => [
+                request()->input('quote'),
+                'movie_id' => $movie->id,
+            ],
+            'ka' => [
+                request()->input('quote-geo'),
+                'movie_id' => $movie->id,
+            ],
+        ]]);
 
         return redirect('/admin/panel')->with('success', 'Movie Added!');
     }

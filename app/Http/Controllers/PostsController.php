@@ -10,7 +10,7 @@ class PostsController extends Controller
 {
     public function index()
     {
-        App::setLocale(session('language') ?? 'en');
+        App::setLocale(session('language') ?? 'ka');
         $quotes = Quote::all();
 
         return view('posts.index', ['quotes' => $quotes->random()]);
