@@ -37,15 +37,10 @@ class AdminController extends Controller
         ]]);
 
         $quote = Quote::create(['quote' => [
-            'en' => [
-                request()->input('quote'),
-                'movie_id' => $movie->id,
-            ],
-            'ka' => [
-                request()->input('quote-geo'),
-                'movie_id' => $movie->id,
-            ],
-        ]]);
+            'en' => request()->input('quote'),
+            'ka' => request()->input('quote-geo'),
+        ],
+            'movie_id' => $movie->id]);
 
         return redirect('/admin/panel')->with('success', 'Movie Added!');
     }

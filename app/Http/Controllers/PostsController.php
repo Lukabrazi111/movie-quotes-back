@@ -18,6 +18,8 @@ class PostsController extends Controller
 
     public function show(Movie $movie)
     {
+        App::setLocale(session('language') ?? 'ka');
+
         return view('posts.show', [
             'quotes' => $movie->quotes,
             'movie' => $movie,
