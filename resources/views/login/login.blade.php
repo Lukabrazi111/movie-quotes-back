@@ -1,7 +1,7 @@
 @extends('layouts.admin-layout')
 
 <div class="mt-9 text-center">
-    <a href="/" class="text-white py-2 px-4 bg-gray-500 rounded hover:bg-gray-700 transition delay-75">Go
+    <a href="{{ route('index') }}" class="text-white py-2 px-4 bg-gray-500 rounded hover:bg-gray-700 transition delay-75">Go
         Back</a>
 </div>
 

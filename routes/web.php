@@ -17,9 +17,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [PostsController::class, 'index']);
+Route::get('/', [PostsController::class, 'index'])->name('index');
 
-Route::get('/posts/{movie:id}', [PostsController::class, 'show'])->name('post.show');
+Route::get('/posts/{movie}', [PostsController::class, 'show'])->name('post.show');
 
 // Admin route
 Route::prefix('admin')->middleware('auth')->group(function () {
@@ -38,8 +38,3 @@ Route::get('/logout', [UserAuthController::class, 'destroy'])->middleware('auth'
 
 // Language change route
 Route::post('/{language}', [LanguageController::class, 'index'])->name('lang');
-
-// Page not found route
-Route::fallback(function () {
-    abort(404);
-});

@@ -1,5 +1,10 @@
 @extends('layouts.admin-layout')
 
+<div class="mt-9 text-center">
+    <a href="{{ route('admin.show') }}" class="text-white py-2 px-4 bg-gray-500 rounded hover:bg-gray-700 transition delay-75">Go
+        Back</a>
+</div>
+
 @section('content')
     <div class="bg-gray-400 rounded p-10 w-auto max-w-2xl flex flex-col justify-center items-center m-auto mt-6">
 

@@ -13,7 +13,7 @@
 
             <div class="mb-8">
                 <p class="text-white text-2xl">
-                    <a href="{{ route('post.show', $quotes->movie_id) }}"
+                    <a href="{{ route('post.show', $quotes->movie->id) }}"
                        class="hover:underline">{{ $quotes->movie->name }}</a>
                 </p>
             </div>

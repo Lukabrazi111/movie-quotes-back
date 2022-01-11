@@ -11,9 +11,10 @@ class PostsController extends Controller
     public function index()
     {
         App::setLocale(session('language') ?? 'ka');
-        $quotes = Quote::all();
 
-        return view('posts.index', ['quotes' => $quotes->random()]);
+        $quotes = Quote::all()->random(1)[0];
+
+        return view('posts.index', ['quotes' => $quotes]);
     }
 
     public function show(Movie $movie)

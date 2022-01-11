@@ -3,7 +3,7 @@
 @section('content')
     <div class="container w-full max-w-lg m-auto">
         <div class="mt-9">
-            <a href="/" class="text-white py-2 px-4 bg-gray-500 rounded hover:bg-gray-700 transition delay-75">Go
+            <a href="{{ route('index') }}" class="text-white py-2 px-4 bg-gray-500 rounded hover:bg-gray-700 transition delay-75">Go
                 Back</a>
         </div>
 

@@ -61,9 +61,6 @@ class AdminController extends Controller
             'textarea' => 'required',
         ]);
 
-//        Quote::where($id)->update(['name' => $request->input('name')]);
-//        Movie::where($id)->update(['textarea' => $request->input('textarea')]);
-
         $quote = Quote::find($id);
         $movie = Movie::find($id);
 
