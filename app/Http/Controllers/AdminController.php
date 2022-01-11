@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
-    // Output all movies
     public function index()
     {
         $quotes = Quote::all();
@@ -21,7 +20,6 @@ class AdminController extends Controller
         return view('admin-panel.add-movie');
     }
 
-    // Add movie & quote
     public function store()
     {
         request()->validate([
@@ -45,7 +43,6 @@ class AdminController extends Controller
         return redirect('/admin/panel')->with('success', 'Movie Added!');
     }
 
-    // Show movie
     public function show($id)
     {
         $quotes = Quote::find($id);
@@ -53,7 +50,6 @@ class AdminController extends Controller
         return view('admin-panel.edit', ['quotes' => $quotes]);
     }
 
-    // Update movie
     public function update(Request $request, $id)
     {
         $this->validate($request, [
@@ -72,7 +68,6 @@ class AdminController extends Controller
         return redirect('/admin/panel')->with('success', 'Movie Updated!');
     }
 
-    // Delete movie
     public function destroy($id)
     {
         $quote = Quote::find($id);
