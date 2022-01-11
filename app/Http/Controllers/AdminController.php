@@ -34,13 +34,13 @@ class AdminController extends Controller
             'ka' => request()->input('movie-name-geo'),
         ]]);
 
-        $quote = Quote::create(['quote' => [
+        Quote::create(['quote' => [
             'en' => request()->input('quote'),
             'ka' => request()->input('quote-geo'),
         ],
             'movie_id' => $movie->id]);
 
-        return redirect('/admin/panel')->with('success', 'Movie Added!');
+        return redirect()->route('admin.show')->with('success', 'Movie Added!');
     }
 
     public function show($id)
@@ -65,7 +65,7 @@ class AdminController extends Controller
         $quote->save();
         $movie->save();
 
-        return redirect('/admin/panel')->with('success', 'Movie Updated!');
+        return redirect()->route('admin.show')->with('success', 'Movie Updated!');
     }
 
     public function destroy($id)
@@ -74,6 +74,6 @@ class AdminController extends Controller
 
         $quote->delete();
 
-        return redirect('/admin/panel')->with('success', 'Movie Removed!');
+        return redirect()->route('admin.show')->with('success', 'Movie Removed!');
     }
 }

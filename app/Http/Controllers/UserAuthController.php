@@ -12,7 +12,6 @@ class UserAuthController extends Controller
         return view('login.login');
     }
 
-    // User login
     public function store(Request $request)
     {
         $request->validate([
@@ -23,17 +22,16 @@ class UserAuthController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
-            return redirect('/');
+            return redirect()->route('index');
         }
 
         return back()->with('success', 'Incorrect email or password!');
     }
 
-    // User logout
     public function destroy()
     {
         auth()->logout();
 
-        return redirect('/');
+        return redirect()->route('index');
     }
 }
