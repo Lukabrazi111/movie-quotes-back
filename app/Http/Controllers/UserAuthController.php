@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserAuthRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -12,12 +13,9 @@ class UserAuthController extends Controller
         return view('login.login');
     }
 
-    public function store(Request $request)
+    public function store(UserAuthRequest $request)
     {
-        $request->validate([
-            'email' => 'required',
-            'password' => 'required',
-        ]);
+        $request->validated();
 
         $credentials = $request->only('email', 'password');
 

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AdminStoreRequest;
+use App\Http\Requests\AdminUpdateRequest;
 use App\Models\Movie;
 use App\Models\Quote;
 use Illuminate\Http\Request;
@@ -20,23 +22,18 @@ class AdminController extends Controller
         return view('admin-panel.add-movie');
     }
 
-    public function store()
+    public function store(AdminStoreRequest $request)
     {
-        request()->validate([
-            'movie-name' => 'required',
-            'movie-name-geo' => 'required',
-            'quote' => 'required',
-            'quote-geo' => 'required',
-        ]);
+        $request->validated();
 
         $movie = Movie::create(['name' => [
-            'en' => request()->input('movie-name'),
-            'ka' => request()->input('movie-name-geo'),
+            'en' => $request->input('movie-name'),
+            'ka' => $request->input('movie-name-geo'),
         ]]);
 
         Quote::create(['quote' => [
-            'en' => request()->input('quote'),
-            'ka' => request()->input('quote-geo'),
+            'en' => $request->input('quote'),
+            'ka' => $request->input('quote-geo'),
         ],
             'movie_id' => $movie->id]);
 
@@ -50,20 +47,15 @@ class AdminController extends Controller
         return view('admin-panel.edit', ['quotes' => $quotes]);
     }
 
-    public function update(Request $request, $id)
+    public function update(AdminUpdateRequest $request, $id)
     {
-        $this->validate($request, [
-            'name' => 'required',
-            'textarea' => 'required',
-        ]);
+        $request->validated();
 
         $quote = Quote::find($id);
-        $movie = Movie::find($id);
 
-        $movie->name = $request->input('name');
+        $quote->movie->name = $request->input('name');
         $quote->quote = $request->input('textarea');
         $quote->save();
-        $movie->save();
 
         return redirect()->route('admin.show')->with('success', 'Movie Updated!');
     }
