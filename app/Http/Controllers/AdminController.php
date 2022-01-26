@@ -12,8 +12,9 @@ class AdminController extends Controller
 	public function index()
 	{
 		$quotes = Quote::all();
+		$movie = Movie::all();
 
-		return view('admin-panel.index', ['quotes' => $quotes]);
+		return view('admin-panel.index', ['quotes' => $quotes, 'movies' => json_decode($movie)]);
 	}
 
 	public function addMovie()
@@ -25,16 +26,16 @@ class AdminController extends Controller
 	{
 		$request->validated();
 
-		$movie = Movie::create(['name' => [
+		Movie::create(['name' => [
 			'en' => $request->input('movie-name'),
 			'ka' => $request->input('movie-name-geo'),
 		]]);
 
-		Quote::create(['quote' => [
-			'en' => $request->input('quote'),
-			'ka' => $request->input('quote-geo'),
-		],
-			'movie_id' => $movie->id, ]);
+//		Quote::create(['quote' => [
+//			'en' => $request->input('quote'),
+//			'ka' => $request->input('quote-geo'),
+//		],
+//			'movie_id' => $movie->id, ]);
 
 		return redirect()->route('admin.show')->with('success', 'Movie Added!');
 	}
@@ -42,32 +43,29 @@ class AdminController extends Controller
 	// Edit
 	public function show($id)
 	{
-		$findQuotes = Quote::find($id);
+		$movies = Movie::find($id);
 
-		$movies = json_decode($findQuotes->movie);
-		$quotes = json_decode($findQuotes);
-
-		return view('admin-panel.edit', ['movies' => $movies, 'quotes' => $quotes, 'quotesId' => $findQuotes]);
+		return view('admin-panel.edit', ['movies' => json_decode($movies)]);
 	}
 
 	public function update(AdminUpdateRequest $request, $id)
 	{
 		$request->validated();
 
-		$quote = Quote::find($id);
+		$movie = Movie::find($id);
 
-		$quote->movie->name = $request->input('name');
-		$quote->quote = $request->input('textarea');
-		$quote->save();
+		$movie->update([
+			'name' => ['en' => $request->input('name'), 'ka' => $request->input('nameGeo')],
+		]);
 
 		return redirect()->route('admin.show')->with('success', 'Movie Updated!');
 	}
 
 	public function destroy($id)
 	{
-		$quote = Quote::find($id);
+		$movie = Movie::find($id);
 
-		$quote->delete();
+		$movie->delete();
 
 		return redirect()->route('admin.show')->with('success', 'Movie Removed!');
 	}

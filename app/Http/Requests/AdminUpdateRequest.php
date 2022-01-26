@@ -25,7 +25,7 @@ class AdminUpdateRequest extends FormRequest
 	{
 		return [
 			'name'     => 'required',
-			'textarea' => 'required',
+			'nameGeo'  => 'required',
 		];
 	}
 }

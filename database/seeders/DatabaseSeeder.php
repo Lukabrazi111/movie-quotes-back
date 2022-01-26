@@ -9,20 +9,20 @@ use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     *
-     * @return void
-     */
-    public function run()
-    {
-        Movie::factory(1)->create();
-        Quote::factory(1)->create();
+	/**
+	 * Seed the application's database.
+	 *
+	 * @return void
+	 */
+	public function run()
+	{
+		Movie::factory(3)->create();
+		Quote::factory(3)->create();
 
-        User::factory()->create([
-            'name' => 'luka',
-            'email' => 'luka@gmail.com',
-            'password' => bcrypt('luka123'),
-        ]);
-    }
+		User::factory()->create([
+			'name'     => 'luka',
+			'email'    => 'luka@gmail.com',
+			'password' => bcrypt('luka123'),
+		]);
+	}
 }

@@ -26,8 +26,6 @@ class AdminStoreRequest extends FormRequest
 		return [
 			'movie-name'     => 'required',
 			'movie-name-geo' => 'required',
-			'quote'          => 'required',
-			'quote-geo'      => 'required',
 		];
 	}
 }
