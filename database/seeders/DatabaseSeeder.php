@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Movie;
 use App\Models\Quote;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -17,5 +18,11 @@ class DatabaseSeeder extends Seeder
     {
         Movie::factory(1)->create();
         Quote::factory(1)->create();
+
+        User::factory()->create([
+            'name' => 'luka',
+            'email' => 'luka@gmail.com',
+            'password' => bcrypt('luka123'),
+        ]);
     }
 }

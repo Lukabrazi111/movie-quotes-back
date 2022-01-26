@@ -3,7 +3,8 @@
 @section('content')
     <div class="container w-full max-w-lg m-auto">
         <div class="mt-9">
-            <a href="{{ route('index') }}" class="text-white py-2 px-4 bg-gray-500 rounded hover:bg-gray-700 transition delay-75">Go
+            <a href="{{ route('index') }}"
+                class="text-white py-2 px-4 bg-gray-500 rounded hover:bg-gray-700 transition delay-75">Go
                 Back</a>
         </div>
 
@@ -14,7 +15,7 @@
                 </p>
             </div>
 
-            @foreach($quotes as $quote)
+            @foreach ($quotes as $quote)
                 <div class="mb-6">
                     <img src="{{ asset('img/image.png') }}" alt="image">
                     <div class="mb-10 bg-white rounded p-4 text-left">

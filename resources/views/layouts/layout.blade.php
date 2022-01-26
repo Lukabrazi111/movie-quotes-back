@@ -26,13 +26,13 @@
     <form action="ka" method="post">
         @csrf
         <button type="submit"
-                class="text-white text-center w-12 hover:text-black hover:bg-white border p-3 rounded-full">ka
+                class="text-center hover:bg-white hover:text-black w-12 @if(session('language') === 'ka') text-black bg-white @else text-white @endif border p-3 rounded-full">ka
         </button>
     </form>
     <form action="en" method="post">
         @csrf
         <button type="submit"
-                class="text-white w-12 text-center hover:text-black hover:bg-white border p-3 rounded-full">en
+                class="text-center hover:bg-white hover:text-black w-12 @if(session('language') === 'en') text-black bg-white @else text-white @endif border p-3 rounded-full">en
         </button>
     </form>
 </div>
