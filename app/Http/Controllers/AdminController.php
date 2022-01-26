@@ -39,11 +39,15 @@ class AdminController extends Controller
 		return redirect()->route('admin.show')->with('success', 'Movie Added!');
 	}
 
+	// Edit
 	public function show($id)
 	{
-		$quotes = Quote::find($id);
+		$findQuotes = Quote::find($id);
 
-		return view('admin-panel.edit', ['quotes' => $quotes]);
+		$movies = json_decode($findQuotes->movie);
+		$quotes = json_decode($findQuotes);
+
+		return view('admin-panel.edit', ['movies' => $movies, 'quotes' => $quotes, 'quotesId' => $findQuotes]);
 	}
 
 	public function update(AdminUpdateRequest $request, $id)

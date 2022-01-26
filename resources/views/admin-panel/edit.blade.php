@@ -13,13 +13,20 @@
         </div>
 
         {{-- Edit Form --}}
-        {!! Form::open(['action' => ['App\Http\Controllers\AdminController@update', $quotes->id], 'method' => 'POST', 'class' => 'flex flex-col p-2 m-2']) !!}
+        {!! Form::open(['action' => ['App\Http\Controllers\AdminController@update', $quotesId->id], 'method' => 'POST', 'class' => 'flex flex-col p-2 m-2']) !!}
 
         {{ Form::label('text', 'Name', ['class' => 'mb-2']) }}
-        {{ Form::text('name', $quotes->movie->name, ['class' => 'p-2 border border-primary rounded mb-2 outline-none bg-indigo-50']) }}
+        {{ Form::text('name', $movies->name->en, ['class' => 'p-2 border border-primary rounded mb-2 outline-none bg-indigo-50']) }}
+
+        {{ Form::label('text', 'Name Geo', ['class' => 'mb-2']) }}
+        {{ Form::text('nameGeo', $movies->name->ka, ['class' => 'p-2 border border-primary rounded mb-2 outline-none bg-indigo-50']) }}
 
         {{ Form::label('textarea', 'Quote', ['class' => 'mb-2']) }}
-        {{ Form::textarea('textarea', $quotes->quote, ['class' => 'border border-primary rounded p-2 outline-none bg-indigo-50', 'cols' => '40', 'rows' => '7']) }}
+        {{ Form::textarea('textarea', $quotes->quote->en, ['class' => 'border border-primary rounded p-2 outline-none bg-indigo-50', 'cols' => '40', 'rows' => '7']) }}
+
+        {{ Form::label('textareaGeo', 'Quote Geo', ['class' => 'mb-2']) }}
+        {{ Form::textarea('textareaGeo', $quotes->quote->ka, ['class' => 'border border-primary rounded p-2 outline-none bg-indigo-50', 'cols' => '40', 'rows' => '7']) }}
+
 
         {{ Form::submit('Edit', ['class' => 'text-center text-white mt-3 bg-gray-700 rounded px-4 py-2 hover:bg-gray-600 transition cursor-pointer']) }}
 
