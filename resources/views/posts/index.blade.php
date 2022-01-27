@@ -8,13 +8,13 @@
             </div>
 
             <div class="mb-10">
-                <p class="text-white text-3xl">"{{ $quotes->quote }}"</p>
+                <p class="text-white text-3xl">"{{ $quotes->movie->name }}"</p>
             </div>
 
             <div class="mb-8">
                 <p class="text-white text-2xl">
                     <a href="{{ route('post.show', $quotes->movie->id) }}"
-                       class="hover:underline">{{ $quotes->movie->name }}</a>
+                       class="hover:underline">{{ $quotes->quote }}</a>
                 </p>
             </div>
         </section>
