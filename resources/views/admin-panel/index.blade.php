@@ -57,6 +57,12 @@
                                     <a href="{{ route('admin.edit', $movie->id) }}"
                                        class="text-indigo-600 hover:text-indigo-900">Edit</a>
                                 </td>
+
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    <a href="{{ route('admin.view-quotes', $movie->id) }}"
+                                       class="text-indigo-600 hover:text-indigo-900">Add Quotes</a>
+                                </td>
+
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                     <a href="{{ route('admin.destroy', $movie->id) }}"
                                        class="text-red-500 hover:text-red-700">Delete</a>

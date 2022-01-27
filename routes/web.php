@@ -26,6 +26,10 @@ Route::prefix('admin')->middleware('auth')->group(function () {
 	Route::get('/panel/add', [AdminController::class, 'addMovie'])->name('admin.add-movie');
 	Route::post('/panel/add', [AdminController::class, 'store'])->name('admin.store');
 	Route::get('/panel/{id}/edit', [AdminController::class, 'show'])->name('admin.edit');
+
+	Route::get('/panel/{id}/add-quotes', [AdminController::class, 'viewQuotes'])->name('admin.view-quotes');
+	Route::put('/panel/{movieId}/add-quotes', [AdminController::class, 'addQuotes'])->name('admin.add-quotes');
+
 	Route::put('/panel/{id}', [AdminController::class, 'update'])->name('admin.update');
 	Route::get('/panel/{id}', [AdminController::class, 'destroy'])->name('admin.destroy');
 });
