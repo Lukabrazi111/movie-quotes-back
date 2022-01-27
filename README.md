@@ -19,11 +19,11 @@ This is an app for movies and their quotes that you can edit, delete and add if 
 - English
 - Georgian
 
-###Built with
+### Built with
 - [Laravel](https://laravel.com/)
 - [Tailwind](https://tailwindcss.com/)
 
-##Getting Started
+## Getting Started
 1. clone Movie quote repository from github:
 ```
 git clone https://github.com/RedberryInternship/lukabrazi-movie-quotes
