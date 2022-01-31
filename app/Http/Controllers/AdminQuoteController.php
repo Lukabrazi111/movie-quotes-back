@@ -34,8 +34,6 @@ class AdminQuoteController extends Controller
 	 */
 	public function store(AdminQuoteStoreRequest $request)
 	{
-		$request->validated();
-
 		Quote::create(['quote' => [
 			'en' => $request->input('quote-name'),
 			'ka' => $request->input('quote-name-geo'),

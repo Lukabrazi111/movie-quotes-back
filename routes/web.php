@@ -38,7 +38,6 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('panel/add-quotes', [AdminQuoteController::class, 'addQuote'])->name('admin.add-quotes');
     Route::post('panel/add-quotes', [AdminQuoteController::class, 'store'])->name('admin.store-quotes');
 
-
 });
 
 Route::get('/login', [UserAuthController::class, 'index'])->name('user.index');

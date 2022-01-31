@@ -24,8 +24,6 @@ class AdminMovieController extends Controller
 
 	public function store(AdminStoreRequest $request)
 	{
-		$request->validated();
-
 		Movie::create(['name' => [
 			'en' => $request->input('movie-name'),
 			'ka' => $request->input('movie-name-geo'),
@@ -43,8 +41,6 @@ class AdminMovieController extends Controller
 
 	public function update(AdminUpdateRequest $request, $id)
 	{
-		$request->validated();
-
 		$movie = Movie::find($id);
 
 		$movie->update([
