@@ -16,10 +16,10 @@
         {!! Form::open(['action' => ['App\Http\Controllers\AdminMovieController@update', $movies->id], 'method' => 'POST', 'class' => 'flex flex-col p-2 m-2']) !!}
 
         {{ Form::label('text', 'Name', ['class' => 'mb-2']) }}
-        {{ Form::text('name', $movies->name->en, ['class' => 'p-2 border border-primary rounded mb-2 outline-none bg-indigo-50']) }}
+        {{ Form::text('name', $movies->getTranslation('name', 'en'), ['class' => 'p-2 border border-primary rounded mb-2 outline-none bg-indigo-50']) }}
 
         {{ Form::label('text', 'Name Geo', ['class' => 'mb-2']) }}
-        {{ Form::text('nameGeo', $movies->name->ka, ['class' => 'p-2 border border-primary rounded mb-2 outline-none bg-indigo-50']) }}
+        {{ Form::text('nameGeo', $movies->getTranslation('name', 'ka'), ['class' => 'p-2 border border-primary rounded mb-2 outline-none bg-indigo-50']) }}
 
         {{ Form::submit('Edit', ['class' => 'text-center text-white mt-3 bg-gray-700 rounded px-4 py-2 hover:bg-gray-600 transition cursor-pointer']) }}
 

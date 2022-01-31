@@ -16,10 +16,10 @@
         {!! Form::open(['action' => ['App\Http\Controllers\AdminQuoteController@update', $quotes->id], 'method' => 'POST', 'class' => 'flex flex-col p-2 m-2']) !!}
 
         {{ Form::label('text', 'Quote', ['class' => 'mb-2']) }}
-        {{ Form::text('quote', $quotes->quote->en, ['class' => 'p-2 border border-primary rounded mb-2 outline-none bg-indigo-50']) }}
+        {{ Form::text('quote', $quotes->getTranslation('quote', 'en'), ['class' => 'p-2 border border-primary rounded mb-2 outline-none bg-indigo-50']) }}
 
         {{ Form::label('text', 'Quote Geo', ['class' => 'mb-2']) }}
-        {{ Form::text('quoteGeo', $quotes->quote->ka, ['class' => 'p-2 border border-primary rounded mb-2 outline-none bg-indigo-50']) }}
+        {{ Form::text('quoteGeo', $quotes->getTranslation('quote', 'ka'), ['class' => 'p-2 border border-primary rounded mb-2 outline-none bg-indigo-50']) }}
 
         <p class="text-center">Movies</p>
         <select name="movie_name" id="cards" class="py-2 rounded">

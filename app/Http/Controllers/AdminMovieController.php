@@ -6,13 +6,12 @@ use App\Http\Requests\AdminStoreRequest;
 use App\Http\Requests\AdminUpdateRequest;
 use App\Models\Movie;
 use App\Models\Quote;
-use Illuminate\Support\Facades\App;
 
 class AdminMovieController extends Controller
 {
 	public function index()
 	{
-        $quotes = Quote::all();
+		$quotes = Quote::all();
 		$movies = Movie::all();
 
 		return view('admin-panel.index-movie', ['quotes' => $quotes, 'movies' => $movies]);
@@ -37,7 +36,7 @@ class AdminMovieController extends Controller
 	{
 		$movies = Movie::find($id);
 
-		return view('admin-panel.edit-movie', ['movies' => json_decode($movies)]);
+		return view('admin-panel.edit-movie', ['movies' => $movies]);
 	}
 
 	public function update(AdminUpdateRequest $request, $id)

@@ -16,7 +16,7 @@ class AdminQuoteController extends Controller
 	{
 		$quotes = Quote::all();
 
-		return view('admin-panel.index-quote', ['quotes' => json_decode($quotes)]);
+		return view('admin-panel.index-quote', ['quotes' => $quotes]);
 	}
 
 	/**
@@ -53,7 +53,7 @@ class AdminQuoteController extends Controller
 		$movies = Movie::all();
 
 		return view('admin-panel.edit-quote', [
-			'quotes' => json_decode($quotes),
+			'quotes' => $quotes,
 			'movies' => $movies,
 		]);
 	}
