@@ -2,45 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\AddQuotesRequest;
 use App\Http\Requests\AdminStoreRequest;
 use App\Http\Requests\AdminUpdateRequest;
 use App\Models\Movie;
 use App\Models\Quote;
 
-class AdminController extends Controller
+class AdminMovieController extends Controller
 {
 	public function index()
 	{
 		$quotes = Quote::all();
 		$movie = Movie::all();
 
-		return view('admin-panel.index', ['quotes' => $quotes, 'movies' => json_decode($movie)]);
+		return view('admin-panel.index-movie', ['quotes' => $quotes, 'movies' => json_decode($movie)]);
 	}
 
 	public function addMovie()
 	{
 		return view('admin-panel.add-movie');
-	}
-
-	public function viewQuotes($id)
-	{
-		$quote = Quote::find($id);
-		return view('admin-panel.add-quotes', ['quote' => json_decode($quote)]);
-	}
-
-	public function addQuotes(AddQuotesRequest $request, $movieId)
-	{
-		$request->validated();
-
-		$movie = Movie::find($movieId);
-
-		Quote::create([
-			'quote'    => ['en' => $request->input('quote'), 'ka' => $request->input('quoteGeo')],
-			'movie_id' => $movie->id,
-		]);
-
-		return redirect()->route('admin.show')->with('success_message', 'Quote Added!');
 	}
 
 	public function store(AdminStoreRequest $request)
@@ -52,21 +31,14 @@ class AdminController extends Controller
 			'ka' => $request->input('movie-name-geo'),
 		]]);
 
-//		Quote::create(['quote' => [
-//			'en' => $request->input('quote'),
-//			'ka' => $request->input('quote-geo'),
-//		],
-//			'movie_id' => $movie->id, ]);
-
 		return redirect()->route('admin.show')->with('success', 'Movie Added!');
 	}
 
-	// Edit
 	public function show($id)
 	{
 		$movies = Movie::find($id);
 
-		return view('admin-panel.edit', ['movies' => json_decode($movies)]);
+		return view('admin-panel.edit-movie', ['movies' => json_decode($movies)]);
 	}
 
 	public function update(AdminUpdateRequest $request, $id)

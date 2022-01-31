@@ -1,9 +1,15 @@
 @extends('layouts.admin-layout')
-
-<div class="mt-9 text-center">
-    <a href="{{ route('index') }}" class="text-white py-2 px-4 bg-gray-500 rounded hover:bg-gray-700 transition delay-75">Go
-        Back</a>
-    <a href="{{ route('admin.add-movie') }}" class="ml-2 hover:underline">Add Movie</a>
+{{--<a href="{{ route('index') }}" class="text-white py-2 px-4 bg-gray-500 rounded hover:bg-gray-700 transition delay-75">Go--}}
+{{--    Back</a>--}}
+<div class="mt-9 flex justify-between px-20">
+    <div>
+        <a href="{{ route('admin.show') }}" class="ml-2 hover:underline">Movies</a>
+        <a href="{{ route('admin.quotes') }}" class="ml-2 hover:underline">Quotes</a>
+    </div>
+    <div>
+        <a href="{{ route('admin.add-movie') }}" class="ml-2 hover:underline">Add movie</a>
+        <a href="{{ route('admin.add-quotes') }}" class="ml-2 hover:underline">Add quote</a>
+    </div>
 </div>
 
 {{-- Check session with success message --}}
@@ -15,6 +21,9 @@
 
 @section('content')
     {{-- Admin Panel --}}
+    <div class="text-center">
+        <h1 class="text-2xl">Movies</h1>
+    </div>
     <div class="flex justify-center w-auto items-center flex-col mt-10">
         <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
@@ -56,11 +65,6 @@
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                     <a href="{{ route('admin.edit', $movie->id) }}"
                                        class="text-indigo-600 hover:text-indigo-900">Edit</a>
-                                </td>
-
-                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <a href="{{ route('admin.view-quotes', $movie->id) }}"
-                                       class="text-indigo-600 hover:text-indigo-900">Add Quotes</a>
                                 </td>
 
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
