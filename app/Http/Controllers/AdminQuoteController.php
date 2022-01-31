@@ -65,8 +65,6 @@ class AdminQuoteController extends Controller
 	 */
 	public function update(AdminUpdateQuoteRequest $request, $id)
 	{
-		$request->validated();
-
 		$quote = Quote::find($id);
 
 		$quote->update([
