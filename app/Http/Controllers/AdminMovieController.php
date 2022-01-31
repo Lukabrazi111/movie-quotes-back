@@ -6,15 +6,16 @@ use App\Http\Requests\AdminStoreRequest;
 use App\Http\Requests\AdminUpdateRequest;
 use App\Models\Movie;
 use App\Models\Quote;
+use Illuminate\Support\Facades\App;
 
 class AdminMovieController extends Controller
 {
 	public function index()
 	{
-		$quotes = Quote::all();
-		$movie = Movie::all();
+        $quotes = Quote::all();
+		$movies = Movie::all();
 
-		return view('admin-panel.index-movie', ['quotes' => $quotes, 'movies' => json_decode($movie)]);
+		return view('admin-panel.index-movie', ['quotes' => $quotes, 'movies' => $movies]);
 	}
 
 	public function addMovie()

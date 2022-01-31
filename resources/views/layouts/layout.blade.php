@@ -26,7 +26,7 @@
     <form action="ka" method="post">
         @csrf
         <button type="submit"
-                class="text-center hover:bg-white hover:text-black w-12 @if(session('language') === 'ka') text-black bg-white @else text-white @endif border p-3 rounded-full">ka
+                class="text-center hover:bg-white hover:text-black w-12 @if(session('language') === 'en') text-white @else bg-white text-black @endif border p-3 rounded-full">ka
         </button>
     </form>
     <form action="en" method="post">

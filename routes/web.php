@@ -29,15 +29,12 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/{id}/edit-movie', [AdminMovieController::class, 'show'])->name('admin.edit');
     Route::put('/{id}', [AdminMovieController::class, 'update'])->name('admin.update');
 	Route::get('/{id}', [AdminMovieController::class, 'destroy'])->name('admin.destroy');
-
     Route::get('panel/quotes', [AdminQuoteController::class, 'index'])->name('admin.quotes');
     Route::get('panel/quotes/{id}/edit-quotes', [AdminQuoteController::class, 'show'])->name('admin.edit-quotes');
     Route::put('panel/quotes/{id}', [AdminQuoteController::class, 'update'])->name('admin.update-quotes');
     Route::get('panel/quotes/{id}', [AdminQuoteController::class, 'destroy'])->name('admin.delete-quotes');
-
     Route::get('panel/add-quotes', [AdminQuoteController::class, 'addQuote'])->name('admin.add-quotes');
     Route::post('panel/add-quotes', [AdminQuoteController::class, 'store'])->name('admin.store-quotes');
-
 });
 
 Route::get('/login', [UserAuthController::class, 'index'])->name('user.index');
