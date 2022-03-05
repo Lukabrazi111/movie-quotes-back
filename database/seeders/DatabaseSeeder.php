@@ -29,27 +29,33 @@ class DatabaseSeeder extends Seeder
 		]);
 
 		Quote::factory()->create([
-			'quote' => ['en' => 'There are so many chicken', 'ka' => 'აქ ძალიან ბევრი ქათამია'],
+			'thumbnail' => 'istockphoto-1124699017-170667a.jpg',
+			'quote'     => ['en' => 'There are so many chicken', 'ka' => 'აქ ძალიან ბევრი ქათამია'],
 		]);
 
 		Quote::factory()->create([
-			'quote' => ['en' => 'Italy', 'ka' => 'იტალია'],
+			'thumbnail' => 'c58c43ZuQHzGnxeYgz3iGA.jpg',
+			'quote'     => ['en' => 'Italy', 'ka' => 'იტალია'],
 		]);
 
 		Quote::factory()->create([
-			'quote' => ['en' => 'Come here', 'ka' => 'მოდი აქ'],
+			'thumbnail' => 'lost-in-random-dicey.jpg',
+			'quote'     => ['en' => 'Come here', 'ka' => 'მოდი აქ'],
 		]);
 
 		Quote::factory()->create([
-			'quote' => ['en' => 'There is no chickens', 'ka' => 'აქ არ არიან ქათმები'],
+			'thumbnail' => 'image.png',
+			'quote'     => ['en' => 'There is no chickens', 'ka' => 'აქ არ არიან ქათმები'],
 		]);
 
 		Quote::factory()->create([
-			'quote' => ['en' => 'Paris', 'ka' => 'პარიზი'],
+			'thumbnail' => 'lost-in-random-dicey.jpg',
+			'quote'     => ['en' => 'Paris', 'ka' => 'პარიზი'],
 		]);
 
 		Quote::factory()->create([
-			'quote' => ['en' => 'Now go away', 'ka' => 'ეხლა წადი აქედან'],
+			'thumbnail' => 'c58c43ZuQHzGnxeYgz3iGA.jpg',
+			'quote'     => ['en' => 'Now go away', 'ka' => 'ეხლა წადი აქედან'],
 		]);
 
 		User::factory()->create([
