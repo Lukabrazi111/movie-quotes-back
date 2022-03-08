@@ -30,3 +30,7 @@ Route::get('/posts/{movie}', function ($id) {
 });
 
 Route::post('/login-user', [UserAuthController::class, 'store']);
+
+Route::get('/movies', function (Movie $movie) {
+	return $movie->all();
+});
