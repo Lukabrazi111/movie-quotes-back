@@ -22,7 +22,7 @@ Route::get('/', [PostsController::class, 'index'])->name('index');
 
 Route::get('/posts/{movie}', [PostsController::class, 'show'])->name('post.show');
 
-Route::prefix('admin')->middleware('auth')->group(function () {
+Route::prefix('admin')->middleware(['auth', 'auth:sanctum'])->group(function () {
 	Route::get('/movies', [AdminMovieController::class, 'index'])->name('admin.show');
 	Route::get('/add-movie', [AdminMovieController::class, 'addMovie'])->name('admin.add-movie');
 	Route::post('/add-movie', [AdminMovieController::class, 'store'])->name('admin.store');

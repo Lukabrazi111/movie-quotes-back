@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserAuthRequest;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class UserAuthController extends Controller
@@ -20,10 +21,18 @@ class UserAuthController extends Controller
 
 		if (Auth::attempt($credentials))
 		{
-			return redirect()->route('index');
+			$user = User::where('email', $request['email'])->firstOrFail();
+
+			$token = $user->createToken('auth_token')->plainTextToken;
+
+			return response()->json([
+				'access_token' => $token,
+			], 201);
 		}
 
-		return back()->with('success', 'Incorrect email or password!');
+		return response()->json([
+			'message' => 'Invalid email or password',
+		]);
 	}
 
 	public function destroy()
