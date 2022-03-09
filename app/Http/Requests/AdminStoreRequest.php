@@ -24,8 +24,8 @@ class AdminStoreRequest extends FormRequest
 	public function rules()
 	{
 		return [
-			'movie-name'     => 'required',
-			'movie-name-geo' => 'required',
+			'enName'     => 'required',
+			'kaName'     => 'required',
 		];
 	}
 }

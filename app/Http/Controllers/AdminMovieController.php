@@ -24,12 +24,18 @@ class AdminMovieController extends Controller
 
 	public function store(AdminStoreRequest $request)
 	{
+        $request->validated();
+
 		Movie::create(['name' => [
-			'en' => $request->input('movie-name'),
-			'ka' => $request->input('movie-name-geo'),
+			'en' => $request->input('enName'),
+			'ka' => $request->input('kaName'),
 		]]);
 
-		return redirect()->route('admin.show')->with('success', 'Movie Added!');
+        return response()->json([
+            'en' => $request->input('enName'),
+            'ka' => $request->input('kaName'),
+        ], 201);
+		// return redirect()->route('admin.show')->with('success', 'Movie Added!');
 	}
 
 	public function show($id)

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminMovieController;
 use App\Http\Controllers\UserAuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -32,5 +33,11 @@ Route::get('/posts/{movie}', function ($id) {
 Route::post('/login-user', [UserAuthController::class, 'store']);
 
 Route::get('/movies', function (Movie $movie) {
-	return $movie->all();
+	return $movie->with('quotes')->get();
 });
+
+Route::get('/quotes-movies', function (Quote $quote) {
+	return $quote->with('movie')->get();
+});
+
+Route::post('/add-movie', [AdminMovieController::class, 'store']);

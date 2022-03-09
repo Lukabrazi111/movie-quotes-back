@@ -15,10 +15,10 @@
         {!! Form::open(['action' => 'App\Http\Controllers\AdminMovieController@store', 'method' => 'POST', 'class' => 'flex flex-col p-2 m-2']) !!}
 
         {{ Form::label('movie-name', 'Movie name', ['class' => 'mb-2']) }}
-        {{ Form::text('movie-name', null, ['class' => 'p-2 border border-primary rounded mb-2 outline-none bg-indigo-50']) }}
+        {{ Form::text('enName', null, ['class' => 'p-2 border border-primary rounded mb-2 outline-none bg-indigo-50']) }}
 
         {{ Form::label('movie-name-geo', 'Movie name geo', ['class' => 'mb-2']) }}
-        {{ Form::text('movie-name-geo', null, ['class' => 'p-2 border border-primary rounded mb-2 outline-none bg-indigo-50']) }}
+        {{ Form::text('kaName', null, ['class' => 'p-2 border border-primary rounded mb-2 outline-none bg-indigo-50']) }}
 
         {{ Form::submit('Add Movie', ['class' => 'text-center text-white mt-3 bg-gray-700 rounded px-4 py-2 hover:bg-gray-600 transition cursor-pointer']) }}
 

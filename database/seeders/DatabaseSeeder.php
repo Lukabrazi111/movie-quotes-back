@@ -30,37 +30,37 @@ class DatabaseSeeder extends Seeder
 
 		Quote::factory()->create([
 			'movie_id'  => 1,
-			'thumbnail' => 'istockphoto-1124699017-170667a.jpg',
+			'thumbnail' => 'the-raid-2-2.jpg',
 			'quote'     => ['en' => 'Let\'s clean this city\'s mess!', 'ka' => 'მოდით გავწმინდოთ ამ ქალაქის არეულობა!'],
 		]);
 
 		Quote::factory()->create([
 			'movie_id'  => 2,
-			'thumbnail' => 'c58c43ZuQHzGnxeYgz3iGA.jpg',
+			'thumbnail' => 'the-god-father.jpg',
 			'quote'     => ['en' => 'I\'m gonna make him an offer he can\'t refuse.', 'ka' => 'მე მას შეთავაზებას გავუკეთებ, რომელზეც უარს ვერ იტყვის.'],
 		]);
 
 		Quote::factory()->create([
 			'movie_id'  => 3,
-			'thumbnail' => 'lost-in-random-dicey.jpg',
+			'thumbnail' => 'shawshank-2.jpg',
 			'quote'     => ['en' => 'It\'s funny.', 'ka' => 'სასაცილოა.'],
 		]);
 
 		Quote::factory()->create([
 			'movie_id'  => 1,
-			'thumbnail' => 'image.png',
+			'thumbnail' => 'the-raid-2.jpg',
 			'quote'     => ['en' => 'This is what I do.', 'ka' => 'ეგ არის რასაც ვაკეთებ.'],
 		]);
 
 		Quote::factory()->create([
 			'movie_id'  => 2,
-			'thumbnail' => 'lost-in-random-dicey.jpg',
+			'thumbnail' => 'the-god-father-2.jpg',
 			'quote'     => ['en' => 'Revenge is a dish best served cold.', 'ka' => 'შურისძიება არის კერძი, რომელიც საუკეთესოდ მიირთმევს ცივად.'],
 		]);
 
 		Quote::factory()->create([
 			'movie_id'  => 3,
-			'thumbnail' => 'c58c43ZuQHzGnxeYgz3iGA.jpg',
+			'thumbnail' => 'shawshank.jpeg',
 			'quote'     => ['en' => 'I think a man working outdoors feels more like a man if he can have a bottle of suds.', 'ka' => 'მე ვფიქრობ, რომ გარეთ მომუშავე მამაკაცი თავს უფრო კაცად გრძნობს, თუ მას აქვს ერთი ბოთლი პივა.'],
 		]);
 
