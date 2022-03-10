@@ -52,7 +52,7 @@ class AdminMovieController extends Controller
 			'name' => ['en' => $request->input('enMovie'), 'ka' => $request->input('kaMovie')],
 		]);
 
-        return response()->json([
+		return response()->json([
 			'name' => ['en' => $request->input('enMovie'), 'ka' => $request->input('kaMovie')],
 		]);
 	}
@@ -63,6 +63,9 @@ class AdminMovieController extends Controller
 
 		$movie->delete();
 
-		return redirect()->route('admin.show')->with('success', 'Movie Removed!');
+		return response()->json([
+			'movie_id' => $movie->id,
+			'message'  => 'Movie removed!',
+		]);
 	}
 }

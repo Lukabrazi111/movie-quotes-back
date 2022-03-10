@@ -54,3 +54,5 @@ Route::get('/show-movie/{movie}', function($id) {
 });
 
 Route::put('/edit-movie/{id}', [AdminMovieController::class, 'update']);
+
+Route::get('/remove-movie/{id}', [AdminMovieController::class, 'destroy']);
