@@ -6,6 +6,7 @@ use App\Http\Requests\AdminQuoteStoreRequest;
 use App\Http\Requests\AdminUpdateQuoteRequest;
 use App\Models\Movie;
 use App\Models\Quote;
+use Storage;
 
 class AdminQuoteController extends Controller
 {
@@ -34,10 +35,16 @@ class AdminQuoteController extends Controller
 	 */
 	public function store(AdminQuoteStoreRequest $request)
 	{
+		$request->validated();
+
+		$newImage = $request->file('quote-image')->getClientOriginalName();
+
 		Quote::create(['quote' => [
 			'en' => $request->input('quote-name'),
 			'ka' => $request->input('quote-name-geo'),
-		], 'movie_id' => $request->input('movie_name')]);
+		], 'thumbnail' => $newImage, 'movie_id' => $request->input('movie_name')]);
+
+		$request->file('quote-image')->move(public_path('img'), $newImage);
 
 		return redirect()->route('admin.quotes')->with('success', 'Quote Added!');
 	}

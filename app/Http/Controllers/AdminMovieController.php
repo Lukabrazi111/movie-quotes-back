@@ -35,7 +35,6 @@ class AdminMovieController extends Controller
             'en' => $request->input('enName'),
             'ka' => $request->input('kaName'),
         ], 201);
-		// return redirect()->route('admin.show')->with('success', 'Movie Added!');
 	}
 
 	public function show($id)

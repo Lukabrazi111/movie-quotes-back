@@ -1,7 +1,7 @@
 @extends('layouts.admin-layout')
 <div class="mt-9 text-center">
     <a href="{{ route('admin.quotes') }}"
-       class="text-white py-2 px-4 bg-gray-500 rounded hover:bg-gray-700 transition delay-75">Go
+        class="text-white py-2 px-4 bg-gray-500 rounded hover:bg-gray-700 transition delay-75">Go
         Back</a>
 </div>
 
@@ -13,24 +13,28 @@
         </div>
 
         {{-- Edit Form --}}
-        {!! Form::open(['action' => 'App\Http\Controllers\AdminQuoteController@store', 'method' => 'POST', 'class' => 'flex flex-col p-2 m-2']) !!}
+        <form action="{{ route('admin.store-quotes') }}" enctype="multipart/form-data" method="POST"
+            class="flex flex-col p-2 m-2">
+            @csrf
 
-        {{ Form::label('quote-name', 'Quote name', ['class' => 'mb-2']) }}
-        {{ Form::text('quote-name', null, ['class' => 'p-2 border border-primary rounded mb-2 outline-none bg-indigo-50']) }}
+            <label for="quote-name" class="mb-2">Quote name</label>
+            <input type="text" id="quote-name" name="quote-name"
+                class="p-2 border border-primary rounded mb-2 outline-none bg-indigo-50">
 
-        {{ Form::label('quote-name-geo', 'Quote name geo', ['class' => 'mb-2']) }}
-        {{ Form::text('quote-name-geo', null, ['class' => 'p-2 border border-primary rounded mb-2 outline-none bg-indigo-50']) }}
+            <label for="quote-name-geo" class="mb-2">Quote name geo</label>
+            <input type="text" id="quote-name-geo" name="quote-name-geo"
+                class="p-2 border border-primary rounded mb-2 outline-none bg-indigo-50">
 
-        <p class="text-center">Movies</p>
-        <select name="movie_name" id="cards" class="py-2 rounded">
-            @foreach($movies as $movie)
-                <option value="{{ $movie->id }}">{{ $movie->name }}</option>
-            @endforeach
-        </select>
-
-        {{ Form::submit('Add Quote', ['class' => 'text-center text-white mt-3 bg-gray-700 rounded px-4 py-2 hover:bg-gray-600 transition cursor-pointer']) }}
-
-        {!! Form::close() !!}
+            <input type="file" name="quote-image" id="quote-image">
+            <p class="text-center">Movies</p>
+            <select name="movie_name" id="cards" class="py-2 rounded">
+                @foreach ($movies as $movie)
+                    <option value="{{ $movie->id }}">{{ $movie->name }}</option>
+                @endforeach
+            </select>
+            <button type="submit"
+                class="text-center text-white mt-3 bg-gray-700 rounded px-4 py-2 hover:bg-gray-600 transition cursor-pointer">Add
+                Quote</button>
+        </form>
     </div>
-
 @endsection
