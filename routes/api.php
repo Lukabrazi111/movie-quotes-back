@@ -3,10 +3,10 @@
 use App\Http\Controllers\AdminMovieController;
 use App\Http\Controllers\AdminQuoteController;
 use App\Http\Controllers\UserAuthController;
+use App\Models\Movie;
+use App\Models\Quote;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Models\Quote;
-use App\Models\Movie;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,5 +42,9 @@ Route::get('/quotes-movies', function (Quote $quote) {
 });
 
 Route::post('/add-movie', [AdminMovieController::class, 'store']);
+
+Route::get('/all-movies', function (Movie $movie) {
+	return $movie->all();
+});
 
 Route::post('/add-quote', [AdminQuoteController::class, 'store']);
