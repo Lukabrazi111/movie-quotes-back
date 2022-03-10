@@ -6,7 +6,6 @@ use App\Http\Requests\AdminQuoteStoreRequest;
 use App\Http\Requests\AdminUpdateQuoteRequest;
 use App\Models\Movie;
 use App\Models\Quote;
-use Storage;
 
 class AdminQuoteController extends Controller
 {
@@ -37,16 +36,25 @@ class AdminQuoteController extends Controller
 	{
 		$request->validated();
 
-		$newImage = $request->file('quote-image')->getClientOriginalName();
+		$image = $request->file('quoteImg');
 
-		Quote::create(['quote' => [
-			'en' => $request->input('quote-name'),
-			'ka' => $request->input('quote-name-geo'),
-		], 'thumbnail' => $newImage, 'movie_id' => $request->input('movie_name')]);
+		if ($request->has('quoteImg'))
+		{
+			$fileName = mt_rand() . '.' . $image->getClientOriginalExtension();
+			$image->move(public_path('img'), $fileName);
 
-		$request->file('quote-image')->move(public_path('img'), $newImage);
+			Quote::create(['quote' => [
+				'en' => $request->input('enQuote'),
+				'ka' => $request->input('kaQuote'),
+			], 'thumbnail' => $fileName, 'movie_id' => $request->input('movieId')]);
 
-		return redirect()->route('admin.quotes')->with('success', 'Quote Added!');
+			return response()->json(['quote' => [
+				'en' => $request->input('enQuote'),
+				'ka' => $request->input('kaQuote'),
+			], 'thumbnail' => $fileName, 'movie_id' => $request->input('movieId')], 201);
+		}
+
+		return response()->json('Image not found!');
 	}
 
 	/**

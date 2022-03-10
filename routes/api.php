@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminMovieController;
+use App\Http\Controllers\AdminQuoteController;
 use App\Http\Controllers\UserAuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -41,3 +42,5 @@ Route::get('/quotes-movies', function (Quote $quote) {
 });
 
 Route::post('/add-movie', [AdminMovieController::class, 'store']);
+
+Route::post('/add-quote', [AdminQuoteController::class, 'store']);

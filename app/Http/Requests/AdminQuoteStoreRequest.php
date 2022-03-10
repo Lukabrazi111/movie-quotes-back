@@ -24,10 +24,10 @@ class AdminQuoteStoreRequest extends FormRequest
 	public function rules()
 	{
 		return [
-			'quote-name'     => 'required',
-			'quote-name-geo' => 'required',
-			'quote-image'    => 'required',
-			'movie_name'     => 'required',
+			'enQuote'  => 'required',
+			'kaQuote'  => 'required',
+			'quoteImg' => 'required|image|mimes:jpeg,png,jpg',
+			'movieId'  => 'required',
 		];
 	}
 }
