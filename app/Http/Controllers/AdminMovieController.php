@@ -24,17 +24,17 @@ class AdminMovieController extends Controller
 
 	public function store(AdminStoreRequest $request)
 	{
-        $request->validated();
+		$request->validated();
 
 		Movie::create(['name' => [
 			'en' => $request->input('enName'),
 			'ka' => $request->input('kaName'),
 		]]);
 
-        return response()->json([
-            'en' => $request->input('enName'),
-            'ka' => $request->input('kaName'),
-        ], 201);
+		return response()->json([
+			'en' => $request->input('enName'),
+			'ka' => $request->input('kaName'),
+		], 201);
 	}
 
 	public function show($id)
@@ -49,10 +49,12 @@ class AdminMovieController extends Controller
 		$movie = Movie::find($id);
 
 		$movie->update([
-			'name' => ['en' => $request->input('name'), 'ka' => $request->input('nameGeo')],
+			'name' => ['en' => $request->input('enMovie'), 'ka' => $request->input('kaMovie')],
 		]);
 
-		return redirect()->route('admin.show')->with('success', 'Movie Updated!');
+        return response()->json([
+			'name' => ['en' => $request->input('enMovie'), 'ka' => $request->input('kaMovie')],
+		]);
 	}
 
 	public function destroy($id)

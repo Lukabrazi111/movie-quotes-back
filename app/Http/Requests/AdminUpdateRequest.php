@@ -24,8 +24,8 @@ class AdminUpdateRequest extends FormRequest
 	public function rules()
 	{
 		return [
-			'name'     => 'required',
-			'nameGeo'  => 'required',
+			'enMovie' => 'required',
+			'kaMovie' => 'required',
 		];
 	}
 }

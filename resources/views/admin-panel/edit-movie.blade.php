@@ -1,7 +1,7 @@
 @extends('layouts.admin-layout')
 <div class="mt-9 text-center">
     <a href="{{ route('admin.show') }}"
-        class="text-white py-2 px-4 bg-gray-500 rounded hover:bg-gray-700 transition delay-75">Go
+       class="text-white py-2 px-4 bg-gray-500 rounded hover:bg-gray-700 transition delay-75">Go
         Back</a>
 </div>
 
@@ -13,19 +13,22 @@
         </div>
 
         {{-- Edit Form --}}
-        {!! Form::open(['action' => ['App\Http\Controllers\AdminMovieController@update', $movies->id], 'method' => 'POST', 'class' => 'flex flex-col p-2 m-2']) !!}
+        <form action="{{ route('admin.update', $movies->id) }}" method="POST" class="flex flex-col p-2 m-2">
+            @csrf
+            @method('PUT')
 
-        {{ Form::label('text', 'Name', ['class' => 'mb-2']) }}
-        {{ Form::text('name', $movies->getTranslation('name', 'en'), ['class' => 'p-2 border border-primary rounded mb-2 outline-none bg-indigo-50']) }}
+            <label for="enMovie" class="mb-2">Name</label>
+            <input type="text" id="enMovie" name="enMovie" value="{{ $movies->getTranslation('name', 'en') }}"
+                   class="p-2 border border-primary rounded mb-2 outline-none bg-indigo-50">
+            <label for="kaMovie" class="mb-2">Name Geo</label>
+            <input type="text" id="kaMovie" name="kaMovie" value="{{ $movies->getTranslation('name', 'ka') }}"
+                   class="p-2 border border-primary rounded mb-2 outline-none bg-indigo-50">
 
-        {{ Form::label('text', 'Name Geo', ['class' => 'mb-2']) }}
-        {{ Form::text('nameGeo', $movies->getTranslation('name', 'ka'), ['class' => 'p-2 border border-primary rounded mb-2 outline-none bg-indigo-50']) }}
-
-        {{ Form::submit('Edit', ['class' => 'text-center text-white mt-3 bg-gray-700 rounded px-4 py-2 hover:bg-gray-600 transition cursor-pointer']) }}
-
-        {{ Form::hidden('_method', 'PUT') }}
-
-        {!! Form::close() !!}
+            <button type="submit"
+                    class="text-center text-white mt-3 bg-gray-700 rounded px-4 py-2 hover:bg-gray-600 transition cursor-pointer">
+                Edit
+            </button>
+        </form>
     </div>
 
 @endsection

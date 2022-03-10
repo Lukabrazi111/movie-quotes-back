@@ -48,3 +48,9 @@ Route::get('/all-movies', function (Movie $movie) {
 });
 
 Route::post('/add-quote', [AdminQuoteController::class, 'store']);
+
+Route::get('/show-movie/{movie}', function($id) {
+    return Movie::where('id', $id)->get();
+});
+
+Route::put('/edit-movie/{id}', [AdminMovieController::class, 'update']);
