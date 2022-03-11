@@ -116,6 +116,8 @@ class AdminQuoteController extends Controller
 
 		$quote->delete();
 
-		return redirect()->route('admin.quotes')->with('success', 'Quote Removed!');
+		return response()->json([
+			'message' => 'Quote removed!',
+		]);
 	}
 }

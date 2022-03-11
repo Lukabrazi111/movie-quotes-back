@@ -55,6 +55,8 @@ Route::get('/show-quote/{quote}', function($id) {
 
 Route::put('/edit-quote/{id}', [AdminQuoteController::class, 'update']);
 
+Route::get('/remove-quote/{id}', [AdminQuoteController::class, 'destroy']);
+
 Route::get('/show-movie/{movie}', function($id) {
     return Movie::where('id', $id)->get();
 });
