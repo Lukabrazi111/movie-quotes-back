@@ -27,6 +27,7 @@ class AdminUpdateQuoteRequest extends FormRequest
 			'enQuote' => 'required',
 			'kaQuote' => 'required',
 			'movieId' => 'required',
+            'quoteImg' => 'required|image|mimes:jpeg,png,jpg',
 		];
 	}
 }

@@ -13,7 +13,7 @@
         </div>
 
         {{-- Edit Form --}}
-        <form action="{{ route('admin.update-quotes', $quotes->id) }}" method="POST" class="flex flex-col p-2 m-2">
+        <form action="{{ route('admin.update-quotes', $quotes->id) }}" enctype="multipart/form-data" method="POST" class="flex flex-col p-2 m-2">
             @csrf
             @method('PUT')
 
@@ -24,6 +24,7 @@
             <input type="text" value="{{ $quotes->getTranslation('quote', 'ka') }}" name="kaQuote" id="kaQuote"
                    class="p-2 border border-primary rounded mb-2 outline-none bg-indigo-50">
 
+            <input type="file" name="quoteImg" id="quoteImg">
             <p class="text-center">Movies</p>
             <select name="movieId" id="cards" class="py-2 rounded">
                 @foreach($movies as $movie)

@@ -51,10 +51,12 @@ class AdminQuoteController extends Controller
 			return response()->json(['quote' => [
 				'en' => $request->input('enQuote'),
 				'ka' => $request->input('kaQuote'),
-			], 'thumbnail' => $fileName, 'movie_id' => $request->input('movieId')], 201);
+			], 'thumbnail' => $fileName, 'movie_id' => $request->input('movieId')]);
 		}
 
-		return response()->json('Image not found!');
+		return response()->json([
+			'message' => 'Can NOT upload image!',
+		]);
 	}
 
 	/**
@@ -82,12 +84,25 @@ class AdminQuoteController extends Controller
 	{
 		$quote = Quote::find($id);
 
-		$quote->update([
-			'quote'    => ['en' => $request->input('enQuote'), 'ka' => $request->input('kaQuote')],
-			'movie_id' => $request->input('movieId'),
-		]);
+		$image = $request->file('quoteImg');
 
-		return redirect()->route('admin.quotes')->with('success', 'Quote Updated!');
+		if ($request->has('quoteImg'))
+		{
+			$fileName = mt_rand() . '.' . $image->getClientOriginalExtension();
+			$image->move(public_path('img'), $fileName);
+
+			$quote->update([
+				'quote'     => ['en' => $request->input('enQuote'), 'ka' => $request->input('kaQuote')],
+				'thumbnail' => $fileName,
+				'movie_id'  => $request->input('movieId'),
+			]);
+
+			return response()->json([
+				'quote'     => ['en' => $request->input('enQuote'), 'ka' => $request->input('kaQuote')],
+				'thumbnail' => $fileName,
+				'movie_id'  => $request->input('movieId'),
+			]);
+		}
 	}
 
 	/**
