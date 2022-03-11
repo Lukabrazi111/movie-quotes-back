@@ -15,7 +15,7 @@ class CreateQuotesTable extends Migration
 	{
 		Schema::create('quotes', function (Blueprint $table) {
 			$table->id();
-			$table->foreignId('movie_id');
+			$table->foreignId('movie_id')->references('id')->on('movies')->onDelete('cascade');
 			$table->string('quote');
 			$table->string('thumbnail')->nullable();
 			$table->timestamps();
