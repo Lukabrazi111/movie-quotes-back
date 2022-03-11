@@ -83,8 +83,8 @@ class AdminQuoteController extends Controller
 		$quote = Quote::find($id);
 
 		$quote->update([
-			'quote'    => ['en' => $request->input('quote'), 'ka' => $request->input('quoteGeo')],
-			'movie_id' => $request->input('movie_name'),
+			'quote'    => ['en' => $request->input('enQuote'), 'ka' => $request->input('kaQuote')],
+			'movie_id' => $request->input('movieId'),
 		]);
 
 		return redirect()->route('admin.quotes')->with('success', 'Quote Updated!');

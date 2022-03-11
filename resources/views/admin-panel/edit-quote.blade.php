@@ -13,26 +13,28 @@
         </div>
 
         {{-- Edit Form --}}
-        {!! Form::open(['action' => ['App\Http\Controllers\AdminQuoteController@update', $quotes->id], 'method' => 'POST', 'class' => 'flex flex-col p-2 m-2']) !!}
+        <form action="{{ route('admin.update-quotes', $quotes->id) }}" method="POST" class="flex flex-col p-2 m-2">
+            @csrf
+            @method('PUT')
 
-        {{ Form::label('text', 'Quote', ['class' => 'mb-2']) }}
-        {{ Form::text('quote', $quotes->getTranslation('quote', 'en'), ['class' => 'p-2 border border-primary rounded mb-2 outline-none bg-indigo-50']) }}
+            <label for="enQuote" class="mb-2">Quote</label>
+            <input type="text" value="{{ $quotes->getTranslation('quote', 'en') }}" name="enQuote" id="enQuote"
+                   class="p-2 border border-primary rounded mb-2 outline-none bg-indigo-50">
+            <label for="enQuote" class="mb-2">Quote Geo</label>
+            <input type="text" value="{{ $quotes->getTranslation('quote', 'ka') }}" name="kaQuote" id="kaQuote"
+                   class="p-2 border border-primary rounded mb-2 outline-none bg-indigo-50">
 
-        {{ Form::label('text', 'Quote Geo', ['class' => 'mb-2']) }}
-        {{ Form::text('quoteGeo', $quotes->getTranslation('quote', 'ka'), ['class' => 'p-2 border border-primary rounded mb-2 outline-none bg-indigo-50']) }}
-
-        <p class="text-center">Movies</p>
-        <select name="movie_name" id="cards" class="py-2 rounded">
-            @foreach($movies as $movie)
-                <option value="{{ $movie->id }}">{{ $movie->name }}</option>
-            @endforeach
-        </select>
-
-        {{ Form::submit('Edit', ['class' => 'text-center text-white mt-3 bg-gray-700 rounded px-4 py-2 hover:bg-gray-600 transition cursor-pointer']) }}
-
-        {{ Form::hidden('_method', 'PUT') }}
-
-        {!! Form::close() !!}
+            <p class="text-center">Movies</p>
+            <select name="movieId" id="cards" class="py-2 rounded">
+                @foreach($movies as $movie)
+                    <option value="{{ $movie->id }}">{{ $movie->name }}</option>
+                @endforeach
+            </select>
+            <button type="submit"
+                    class="text-center text-white mt-3 bg-gray-700 rounded px-4 py-2 hover:bg-gray-600 transition cursor-pointer">
+                Edit
+            </button>
+        </form>
     </div>
 
 @endsection
