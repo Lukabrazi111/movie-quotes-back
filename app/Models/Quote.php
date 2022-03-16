@@ -10,7 +10,7 @@ class Quote extends Model
 {
     use HasFactory, HasTranslations;
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     public $translatable = ['quote'];
 

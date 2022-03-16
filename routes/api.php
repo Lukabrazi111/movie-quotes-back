@@ -1,11 +1,8 @@
 <?php
 
-use App\Http\Controllers\AdminMovieController;
-use App\Http\Controllers\AdminQuoteController;
-use App\Http\Controllers\UserAuthController;
-use App\Models\Movie;
-use App\Models\Quote;
-use Illuminate\Http\Request;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\MovieController;
+use App\Http\Controllers\QuoteController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,48 +16,30 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-	return $request->user();
+Route::middleware('auth:sanctum')->group(function () {
+	Route::post('/movie', [MovieController::class, 'store']);
+    Route::put('/movie/{id}', [MovieController::class, 'update']);
+    Route::delete('/movie/{id}', [MovieController::class, 'destroy']);
+
+    Route::post('/quote', [QuoteController::class, 'store']);
+    Route::put('/quote/{id}', [QuoteController::class, 'update']);
+    Route::delete('/quote/{id}', [QuoteController::class, 'destroy']);
 });
 
-Route::get('/quotes', function (Quote $quote) {
-	return $quote->with('movie')->get()->random(1)[0];
-});
+Route::post('/login', [AuthController::class, 'login']);
 
-Route::get('/posts/{movie}', function ($id) {
-	return Movie::where('id', $id)->with('quotes')->get();
-});
+Route::get('/all-movies', [MovieController::class, 'getOnlyMovies']);
+Route::get('/movies', [MovieController::class, 'getAllMoviesWithQuotes']);
+Route::get('/movie/{movie}', [MovieController::class, 'getSpecificMovie']);
+Route::get('/movies/{id}', [MovieController::class, 'getMovieWithQuotes']);
 
-Route::post('/login-user', [UserAuthController::class, 'store']);
+Route::get('/quotes', [QuoteController::class, 'getQuotesWithMovie']);
+Route::get('/quote/{id}', [QuoteController::class, 'getSpecificQuote']);
+Route::get('/quotes-movies', [QuoteController::class, 'getQuotesAndMovies']);
 
-Route::get('/movies', function (Movie $movie) {
-	return $movie->with('quotes')->get();
-});
 
-Route::get('/quotes-movies', function (Quote $quote) {
-	return $quote->with('movie')->get();
-});
 
-Route::post('/add-movie', [AdminMovieController::class, 'store']);
 
-Route::get('/all-movies', function (Movie $movie) {
-	return $movie->all();
-});
 
-Route::post('/add-quote', [AdminQuoteController::class, 'store']);
 
-Route::get('/show-quote/{quote}', function($id) {
-    return Quote::where('id', $id)->get();
-});
 
-Route::put('/edit-quote/{id}', [AdminQuoteController::class, 'update']);
-
-Route::get('/remove-quote/{id}', [AdminQuoteController::class, 'destroy']);
-
-Route::get('/show-movie/{movie}', function($id) {
-    return Movie::where('id', $id)->get();
-});
-
-Route::put('/edit-movie/{id}', [AdminMovieController::class, 'update']);
-
-Route::get('/remove-movie/{id}', [AdminMovieController::class, 'destroy']);

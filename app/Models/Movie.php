@@ -10,7 +10,7 @@ class Movie extends Model
 {
     use HasFactory, HasTranslations;
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
     public $translatable = ['name'];
 
     public function quotes()

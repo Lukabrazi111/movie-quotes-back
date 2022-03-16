@@ -4,30 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AdminQuoteStoreRequest;
 use App\Http\Requests\AdminUpdateQuoteRequest;
-use App\Models\Movie;
 use App\Models\Quote;
 
-class AdminQuoteController extends Controller
+class QuoteController extends Controller
 {
-	/**
-	 * Display a listing of the resource.
-	 */
-	public function index()
-	{
-		$quotes = Quote::all();
+    public function getSpecificQuote($id) {
+        return Quote::where('id', $id)->get();
+    }
 
-		return view('admin-panel.index-quote', ['quotes' => $quotes]);
-	}
+    public function getQuotesAndMovies(Quote $quote) {
+        return $quote->with('movie')->get();
+    }
 
-	/**
-	 * Show the form for creating a new resource.
-	 */
-	public function addQuote()
-	{
-		$movies = Movie::all();
-
-		return view('admin-panel.add-quote', ['movies' => $movies]);
-	}
+    public function getQuotesWithMovie (Quote $quote) {
+        return $quote->with('movie')->get()->random(1)[0];
+    }
 
 	/**
 	 * Store a newly created resource in storage.
@@ -56,23 +47,7 @@ class AdminQuoteController extends Controller
 
 		return response()->json([
 			'message' => 'Can NOT upload image!',
-		]);
-	}
-
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param int $id
-	 */
-	public function show($id)
-	{
-		$quotes = Quote::find($id);
-		$movies = Movie::all();
-
-		return view('admin-panel.edit-quote', [
-			'quotes' => $quotes,
-			'movies' => $movies,
-		]);
+		], 422);
 	}
 
 	/**
@@ -86,23 +61,20 @@ class AdminQuoteController extends Controller
 
 		$image = $request->file('quoteImg');
 
-		if ($request->has('quoteImg'))
-		{
-			$fileName = mt_rand() . '.' . $image->getClientOriginalExtension();
-			$image->move(public_path('img'), $fileName);
+		$fileName = mt_rand() . '.' . $image->getClientOriginalExtension();
+		$image->move(public_path('img'), $fileName);
 
-			$quote->update([
-				'quote'     => ['en' => $request->input('enQuote'), 'ka' => $request->input('kaQuote')],
-				'thumbnail' => $fileName,
-				'movie_id'  => $request->input('movieId'),
-			]);
+		$quote->update([
+			'quote'     => ['en' => $request->input('enQuote'), 'ka' => $request->input('kaQuote')],
+			'thumbnail' => $fileName,
+			'movie_id'  => $request->input('movieId'),
+		]);
 
-			return response()->json([
-				'quote'     => ['en' => $request->input('enQuote'), 'ka' => $request->input('kaQuote')],
-				'thumbnail' => $fileName,
-				'movie_id'  => $request->input('movieId'),
-			]);
-		}
+		return response()->json([
+			'quote'     => ['en' => $request->input('enQuote'), 'ka' => $request->input('kaQuote')],
+			'thumbnail' => $fileName,
+			'movie_id'  => $request->input('movieId'),
+		]);
 	}
 
 	/**
@@ -112,12 +84,10 @@ class AdminQuoteController extends Controller
 	 */
 	public function destroy($id)
 	{
-		$quote = Quote::find($id);
-
-		$quote->delete();
+		Quote::destroy($id);
 
 		return response()->json([
 			'message' => 'Quote removed!',
-		]);
+		], 200);
 	}
 }

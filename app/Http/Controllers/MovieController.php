@@ -5,21 +5,26 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AdminStoreRequest;
 use App\Http\Requests\AdminUpdateRequest;
 use App\Models\Movie;
-use App\Models\Quote;
 
-class AdminMovieController extends Controller
+class MovieController extends Controller
 {
-	public function index()
-	{
-		$quotes = Quote::all();
-		$movies = Movie::all();
+    public function getSpecificMovie($id) {
+        return Movie::where('id', $id)->get();
+    }
 
-		return view('admin-panel.index-movie', ['quotes' => $quotes, 'movies' => $movies]);
+	public function getOnlyMovies(Movie $movie)
+	{
+		return $movie->all();
 	}
 
-	public function addMovie()
+	public function getAllMoviesWithQuotes(Movie $movie)
 	{
-		return view('admin-panel.add-movie');
+		return $movie->with('quotes')->get();
+	}
+
+	public function getMovieWithQuotes($id)
+	{
+		return Movie::where('id', $id)->with('quotes')->get();
 	}
 
 	public function store(AdminStoreRequest $request)
@@ -37,20 +42,9 @@ class AdminMovieController extends Controller
 		], 201);
 	}
 
-	public function show($id)
-	{
-		$movies = Movie::find($id);
-
-		return view('admin-panel.edit-movie', ['movies' => $movies]);
-	}
-
 	public function update(AdminUpdateRequest $request, $id)
 	{
-		$movie = Movie::find($id);
-
-		$movie->update([
-			'name' => ['en' => $request->input('enMovie'), 'ka' => $request->input('kaMovie')],
-		]);
+		Movie::find($id)->update(['name' => ['en' => $request->input('enMovie'), 'ka' => $request->input('kaMovie')]], $id);
 
 		return response()->json([
 			'name' => ['en' => $request->input('enMovie'), 'ka' => $request->input('kaMovie')],
@@ -59,12 +53,10 @@ class AdminMovieController extends Controller
 
 	public function destroy($id)
 	{
-		$movie = Movie::find($id);
-
-		$movie->delete();
+		Movie::destroy($id);
 
 		return response()->json([
-			'movie_id' => $movie->id,
+			'movie_id' => $id,
 			'message'  => 'Movie removed!',
 		]);
 	}

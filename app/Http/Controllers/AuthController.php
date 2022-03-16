@@ -6,14 +6,9 @@ use App\Http\Requests\UserAuthRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
-class UserAuthController extends Controller
+class AuthController extends Controller
 {
-	public function index()
-	{
-		return view('login.login');
-	}
-
-	public function store(UserAuthRequest $request)
+	public function login(UserAuthRequest $request)
 	{
 		$request->validated();
 
@@ -35,10 +30,10 @@ class UserAuthController extends Controller
 		]);
 	}
 
-	public function destroy()
+	public function logout()
 	{
 		auth()->logout();
 
-		return redirect()->route('index');
+		return response()->json(status:200);
 	}
 }
