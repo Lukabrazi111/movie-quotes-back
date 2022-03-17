@@ -16,17 +16,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->group(function () {
+Route::group(['middleware' => ['auth:sanctum']], function () {
 	Route::post('/movie', [MovieController::class, 'store']);
-    Route::put('/movie/{id}', [MovieController::class, 'update']);
-    Route::delete('/movie/{id}', [MovieController::class, 'destroy']);
+	Route::put('/movie/{id}', [MovieController::class, 'update']);
+	Route::delete('/movie/{id}', [MovieController::class, 'destroy']);
 
-    Route::post('/quote', [QuoteController::class, 'store']);
-    Route::put('/quote/{id}', [QuoteController::class, 'update']);
-    Route::delete('/quote/{id}', [QuoteController::class, 'destroy']);
+	Route::post('/quote', [QuoteController::class, 'store']);
+	Route::put('/quote/{id}', [QuoteController::class, 'update']);
+	Route::delete('/quote/{id}', [QuoteController::class, 'destroy']);
 });
 
+
 Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout']);
 
 Route::get('/all-movies', [MovieController::class, 'getOnlyMovies']);
 Route::get('/movies', [MovieController::class, 'getAllMoviesWithQuotes']);
@@ -36,10 +38,3 @@ Route::get('/movies/{id}', [MovieController::class, 'getMovieWithQuotes']);
 Route::get('/quotes', [QuoteController::class, 'getQuotesWithMovie']);
 Route::get('/quote/{id}', [QuoteController::class, 'getSpecificQuote']);
 Route::get('/quotes-movies', [QuoteController::class, 'getQuotesAndMovies']);
-
-
-
-
-
-
-

@@ -44,7 +44,7 @@ class MovieController extends Controller
 
 	public function update(AdminUpdateRequest $request, $id)
 	{
-		Movie::find($id)->update(['name' => ['en' => $request->input('enMovie'), 'ka' => $request->input('kaMovie')]], $id);
+		Movie::find($id)->update(['name' => ['en' => $request->input('enMovie'), 'ka' => $request->input('kaMovie')]]);
 
 		return response()->json([
 			'name' => ['en' => $request->input('enMovie'), 'ka' => $request->input('kaMovie')],

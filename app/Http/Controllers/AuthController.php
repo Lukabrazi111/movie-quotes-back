@@ -18,7 +18,7 @@ class AuthController extends Controller
 		{
 			$user = User::where('email', $request['email'])->firstOrFail();
 
-			$token = $user->createToken('auth_token')->plainTextToken;
+			$token = $user->createToken('token')->plainTextToken;
 
 			return response()->json([
 				'access_token' => $token,
@@ -32,8 +32,8 @@ class AuthController extends Controller
 
 	public function logout()
 	{
-		auth()->logout();
-
-		return response()->json(status:200);
+		return response()->json([
+			'message' => 'Logged out',
+		]);
 	}
 }

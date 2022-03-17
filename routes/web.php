@@ -33,7 +33,7 @@ Route::prefix('admin')->middleware(['auth', 'auth:sanctum'])->group(function () 
 });
 
 Route::get('/login', [AuthController::class, 'index'])->name('user.index');
-Route::post('/login-user', [AuthController::class, 'store'])->middleware('guest')->name('user.login');
-Route::get('/logout', [AuthController::class, 'destroy'])->middleware('auth')->name('user.logout');
+Route::post('/login', [AuthController::class, 'login'])->middleware('guest')->name('user.login');
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('user.logout');
 
 Route::post('/{language}', [LanguageController::class, 'index'])->name('lang');
