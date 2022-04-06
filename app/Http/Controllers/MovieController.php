@@ -8,9 +8,10 @@ use App\Models\Movie;
 
 class MovieController extends Controller
 {
-    public function getSpecificMovie($id) {
-        return Movie::where('id', $id)->get();
-    }
+	public function getSpecificMovie($id)
+	{
+		return Movie::where('id', $id)->get();
+	}
 
 	public function getOnlyMovies(Movie $movie)
 	{

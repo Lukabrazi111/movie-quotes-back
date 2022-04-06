@@ -8,17 +8,20 @@ use App\Models\Quote;
 
 class QuoteController extends Controller
 {
-    public function getSpecificQuote($id) {
-        return Quote::where('id', $id)->get();
-    }
+	public function getSpecificQuote($id)
+	{
+		return Quote::where('id', $id)->get();
+	}
 
-    public function getQuotesAndMovies(Quote $quote) {
-        return $quote->with('movie')->get();
-    }
+	public function getQuotesAndMovies(Quote $quote)
+	{
+		return $quote->with('movie')->orderBy('id', 'desc')->get();
+	}
 
-    public function getQuotesWithMovie (Quote $quote) {
-        return $quote->with('movie')->get()->random(1)[0];
-    }
+	public function getQuotesWithMovie(Quote $quote)
+	{
+		return $quote->with('movie')->get()->random(1)[0];
+	}
 
 	/**
 	 * Store a newly created resource in storage.
