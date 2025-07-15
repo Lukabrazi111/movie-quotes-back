@@ -4,8 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
+use App\Mail\UserVerificationMail;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\URL;
 
 class AuthController extends Controller
 {
@@ -15,12 +19,55 @@ class AuthController extends Controller
 
         $user = User::create($validated);
 
-        // TODO: need to send temporary link for verification user
+        $tempUrl = $this->changeTempUrl($user);
+
+        Mail::to($user)->send(new UserVerificationMail($user->name, $tempUrl));
 
         return response()->json([
             'user' => $user,
-            'message' => 'User successfully registered',
+            'message' => 'We\'ve sent a verification link to your email',
         ]);
+    }
+
+    public function verifyUser(Request $request)
+    {
+        if (!$request->hasValidSignature()) {
+            abort(401);
+        }
+
+        $user = User::findOrFail($request->user);
+
+        if ($user->hasVerifiedEmail()) {
+            return response()->json([
+                'message' => 'User already verified',
+            ], 409);
+        }
+
+        $user->markEmailAsVerified();
+
+        return response()->json([
+            'message' => 'User successfully verified'
+        ]);
+    }
+
+    private function changeTempUrl(object $user)
+    {
+        $tempUrl = $this->generateTempUrl($user->id);
+
+        $pos = strpos($tempUrl, 'api/');
+
+        $url = '';
+
+        if ($pos !== false) {
+            $url = substr_replace($tempUrl, '', $pos, 4);
+        }
+
+        return str_replace(config('app.url'), config('app.frontend_url'), $url);
+    }
+
+    private function generateTempUrl(string $id)
+    {
+        return URL::temporarySignedRoute('verify-user', now()->addMinutes(15), ['user' => $id]);
     }
 
     public function login(LoginRequest $request)
@@ -59,7 +106,7 @@ class AuthController extends Controller
      * @param string $field
      * @return string
      */
-    public function getCredentialFieldType(string $field)
+    private function getCredentialFieldType(string $field)
     {
         return filter_var($field, FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
     }
