@@ -54,15 +54,10 @@ class AuthController extends Controller
     {
         $tempUrl = $this->generateTempUrl($user->id);
 
-        $pos = strpos($tempUrl, 'api/');
+        $backUrl = config('app.url') . '/api';
+        $frontUrl = config('app.frontend_url');
 
-        $url = '';
-
-        if ($pos !== false) {
-            $url = substr_replace($tempUrl, '', $pos, 4);
-        }
-
-        return str_replace(config('app.url'), config('app.frontend_url'), $url);
+        return str_replace($backUrl, $frontUrl, $tempUrl);
     }
 
     private function generateTempUrl(string $id)
