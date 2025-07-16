@@ -32,7 +32,9 @@ class AuthController extends Controller
     public function verifyUser(Request $request)
     {
         if (!$request->hasValidSignature()) {
-            abort(401);
+            return response()->json([
+                'message' => 'Link expired',
+            ], 410);
         }
 
         $user = User::findOrFail($request->user);
@@ -54,6 +56,10 @@ class AuthController extends Controller
     {
         $tempUrl = $this->generateTempUrl($user->id);
 
+        /**
+         * TODO: update readme.md file with this info
+         * so that user will add this info to .env file
+         */
         $backUrl = config('app.url') . '/api';
         $frontUrl = config('app.frontend_url');
 
