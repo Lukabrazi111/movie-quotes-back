@@ -45,7 +45,7 @@ class AuthController extends Controller
 
     private function generateTempUrl(string $id): string
     {
-        return URL::temporarySignedRoute('verify-user', now()->addSecond(), ['user' => $id]);
+        return URL::temporarySignedRoute('verify-user', now()->addMinutes(15), ['user' => $id]);
     }
 
     public function verifyUser(Request $request)
