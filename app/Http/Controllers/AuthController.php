@@ -19,9 +19,7 @@ class AuthController extends Controller
 
         $user = User::create($validated);
 
-        $tempUrl = $this->createTempUrl($user);
-
-        Mail::to($user)->send(new UserVerificationMail($user->name, $tempUrl));
+        $this->sendEmailWithUrl($user);
 
         return response()->json([
             'user' => $user,
@@ -29,23 +27,26 @@ class AuthController extends Controller
         ]);
     }
 
-    private function createTempUrl(object $user)
+    public function login(LoginRequest $request)
     {
-        $tempUrl = $this->generateTempUrl($user->id);
+        $validated = $request->validated();
 
-        /**
-         * TODO: update readme.md file with this info
-         * so that user will add this info to .env file
-         */
-        $backUrl = config('app.url') . '/api';
-        $frontUrl = config('app.frontend_url');
+        $fieldType = $this->getCredentialFieldType($validated['email']);
 
-        return str_replace($backUrl, $frontUrl, $tempUrl);
-    }
+        $user = $this->getUserByType($fieldType, $validated['email']);
 
-    private function generateTempUrl(string $id): string
-    {
-        return URL::temporarySignedRoute('verify-user', now()->addMinutes(15), ['user' => $id]);
+        if (!$user || !Hash::check($validated['password'], $user->password)) {
+            return response()->json([
+                'message' => 'Invalid credentials',
+            ], 401);
+        }
+
+        $token = $user->createToken('auth_token')->plainTextToken;
+
+        return response()->json([
+            'user' => $user,
+            'token' => $token,
+        ]);
     }
 
     public function verifyUser(Request $request)
@@ -74,16 +75,13 @@ class AuthController extends Controller
 
     public function resendLink(User $user)
     {
-        if($user->hasVerifiedEmail()) {
+        if ($user->hasVerifiedEmail()) {
             return response()->json([
                 'message' => 'User already verified',
             ], 409);
         }
 
-        // TODO: need create function for duplicate code
-        $tempUrl = $this->createTempUrl($user);
-
-        Mail::to($user)->send(new UserVerificationMail($user->name, $tempUrl));
+        $this->sendEmailWithUrl($user);
 
         return response()->json([
             'status' => true,
@@ -91,26 +89,30 @@ class AuthController extends Controller
         ]);
     }
 
-    public function login(LoginRequest $request)
+    private function sendEmailWithUrl($user): void
     {
-        $validated = $request->validated();
+        $tempUrl = $this->createTempUrl($user);
 
-        $fieldType = $this->getCredentialFieldType($validated['email']);
+        Mail::to($user)->send(new UserVerificationMail($user->name, $tempUrl));
+    }
 
-        $user = $this->getUserByType($fieldType, $validated['email']);
+    private function createTempUrl(object $user): string
+    {
+        $tempUrl = $this->generateTempUrl($user->id);
 
-        if (!$user || !Hash::check($validated['password'], $user->password)) {
-            return response()->json([
-                'message' => 'Invalid credentials',
-            ], 401);
-        }
+        /**
+         * TODO: update readme.md file with this info
+         * so that user will add this info to .env file
+         */
+        $backUrl = config('app.url') . '/api';
+        $frontUrl = config('app.frontend_url');
 
-        $token = $user->createToken('auth_token')->plainTextToken;
+        return str_replace($backUrl, $frontUrl, $tempUrl);
+    }
 
-        return response()->json([
-            'user' => $user,
-            'token' => $token,
-        ]);
+    private function generateTempUrl(string $id): string
+    {
+        return URL::temporarySignedRoute('verify-user', now()->addMinutes(15), ['user' => $id]);
     }
 
     /**
