@@ -13,6 +13,7 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::get('/verify', [AuthController::class, 'verifyUser'])->name('verify-user');
+Route::post('/resend-link/{user}', [AuthController::class, 'resendLink'])->name('auth.resend-link');
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);

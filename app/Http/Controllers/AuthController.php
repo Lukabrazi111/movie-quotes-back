@@ -19,7 +19,7 @@ class AuthController extends Controller
 
         $user = User::create($validated);
 
-        $tempUrl = $this->changeTempUrl($user);
+        $tempUrl = $this->createTempUrl($user);
 
         Mail::to($user)->send(new UserVerificationMail($user->name, $tempUrl));
 
@@ -29,10 +29,30 @@ class AuthController extends Controller
         ]);
     }
 
+    private function createTempUrl(object $user)
+    {
+        $tempUrl = $this->generateTempUrl($user->id);
+
+        /**
+         * TODO: update readme.md file with this info
+         * so that user will add this info to .env file
+         */
+        $backUrl = config('app.url') . '/api';
+        $frontUrl = config('app.frontend_url');
+
+        return str_replace($backUrl, $frontUrl, $tempUrl);
+    }
+
+    private function generateTempUrl(string $id): string
+    {
+        return URL::temporarySignedRoute('verify-user', now()->addSecond(), ['user' => $id]);
+    }
+
     public function verifyUser(Request $request)
     {
         if (!$request->hasValidSignature()) {
             return response()->json([
+                'status' => false,
                 'message' => 'Link expired',
             ], 410);
         }
@@ -52,23 +72,23 @@ class AuthController extends Controller
         ]);
     }
 
-    private function changeTempUrl(object $user)
+    public function resendLink(User $user)
     {
-        $tempUrl = $this->generateTempUrl($user->id);
+        if($user->hasVerifiedEmail()) {
+            return response()->json([
+                'message' => 'User already verified',
+            ], 409);
+        }
 
-        /**
-         * TODO: update readme.md file with this info
-         * so that user will add this info to .env file
-         */
-        $backUrl = config('app.url') . '/api';
-        $frontUrl = config('app.frontend_url');
+        // TODO: need create function for duplicate code
+        $tempUrl = $this->createTempUrl($user);
 
-        return str_replace($backUrl, $frontUrl, $tempUrl);
-    }
+        Mail::to($user)->send(new UserVerificationMail($user->name, $tempUrl));
 
-    private function generateTempUrl(string $id)
-    {
-        return URL::temporarySignedRoute('verify-user', now()->addMinutes(15), ['user' => $id]);
+        return response()->json([
+            'status' => true,
+            'message' => 'We\'ve sent a verification link to your email',
+        ]);
     }
 
     public function login(LoginRequest $request)
@@ -93,15 +113,6 @@ class AuthController extends Controller
         ]);
     }
 
-    public function logout()
-    {
-        auth()->user()->tokens()->delete();
-
-        return response()->json([
-            'message' => 'User logged out',
-        ]);
-    }
-
     /**
      * Get credential field with type
      * @param string $field
@@ -121,5 +132,14 @@ class AuthController extends Controller
     private function getUserByType(string $field, string $value)
     {
         return User::where($field, $value)->first();
+    }
+
+    public function logout()
+    {
+        auth()->user()->tokens()->delete();
+
+        return response()->json([
+            'message' => 'User logged out',
+        ]);
     }
 }
