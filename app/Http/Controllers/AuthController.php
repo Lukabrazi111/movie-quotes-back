@@ -27,7 +27,7 @@ class AuthController extends Controller
         ]);
     }
 
-    public function login(LoginRequest $request)
+    public function login(LoginRequest $request): \Illuminate\Http\JsonResponse
     {
         $validated = $request->validated();
 
@@ -49,7 +49,7 @@ class AuthController extends Controller
         ]);
     }
 
-    public function verifyUser(Request $request)
+    public function verifyUser(Request $request): \Illuminate\Http\JsonResponse
     {
         if (!$request->hasValidSignature()) {
             return response()->json([
@@ -73,7 +73,7 @@ class AuthController extends Controller
         ]);
     }
 
-    public function resendLink($id)
+    public function resendLink($id): \Illuminate\Http\JsonResponse
     {
         $user = User::find($id);
 
@@ -130,7 +130,7 @@ class AuthController extends Controller
      * @param string $field
      * @return string
      */
-    private function getCredentialFieldType(string $field)
+    private function getCredentialFieldType(string $field): string
     {
         return filter_var($field, FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
     }
@@ -141,12 +141,12 @@ class AuthController extends Controller
      * @param string $value
      * @return User
      */
-    private function getUserByType(string $field, string $value)
+    private function getUserByType(string $field, string $value): User
     {
         return User::where($field, $value)->first();
     }
 
-    public function logout()
+    public function logout(): \Illuminate\Http\JsonResponse
     {
         auth()->user()->tokens()->delete();
 
