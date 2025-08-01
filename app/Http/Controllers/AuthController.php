@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\URL;
 
 class AuthController extends Controller
 {
-    public function register(RegisterRequest $request)
+    public function register(RegisterRequest $request): \Illuminate\Http\JsonResponse
     {
         $validated = $request->validated();
 
