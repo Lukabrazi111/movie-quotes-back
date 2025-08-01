@@ -73,10 +73,20 @@ class AuthController extends Controller
         ]);
     }
 
-    public function resendLink(User $user)
+    public function resendLink($id)
     {
+        $user = User::find($id);
+
+        if (is_null($user)) {
+            return response()->json([
+                'status' => false,
+                'message' => 'User not found',
+            ], 404);
+        }
+
         if ($user->hasVerifiedEmail()) {
             return response()->json([
+                'status' => false,
                 'message' => 'User already verified',
             ], 409);
         }
