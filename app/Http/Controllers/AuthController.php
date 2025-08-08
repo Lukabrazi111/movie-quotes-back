@@ -35,6 +35,8 @@ class AuthController extends Controller
 
         $user = $this->getUserByType($fieldType, $validated['email']);
 
+        // TODO: need to check if user is verified
+
         if (!$user || !Hash::check($validated['password'], $user->password)) {
             return response()->json([
                 'message' => 'Invalid credentials',
@@ -103,7 +105,7 @@ class AuthController extends Controller
     {
         $tempUrl = $this->createTempUrl($user);
 
-        Mail::to($user)->send(new UserVerificationMail($user->name, $tempUrl));
+        Mail::to($user)->send(new UserVerificationMail($user->username, $tempUrl));
     }
 
     private function createTempUrl(object $user): string
@@ -132,7 +134,7 @@ class AuthController extends Controller
      */
     private function getCredentialFieldType(string $field): string
     {
-        return filter_var($field, FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
+        return filter_var($field, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
     }
 
     /**
