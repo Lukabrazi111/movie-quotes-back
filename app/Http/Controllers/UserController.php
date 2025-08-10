@@ -3,16 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateProfileRequest;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
     // update user profile
-    public function updateProfile(UpdateProfileRequest $request)
+    public function update(UpdateProfileRequest $request)
     {
         $validated = $request->validated();
 
-        $user = auth()->user();
+        auth()->user()->update($validated);
 
-
+        return response()->json([
+            'status' => true,
+            'message' => 'Profile updated successfully',
+        ]);
     }
 }

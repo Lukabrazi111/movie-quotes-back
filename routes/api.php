@@ -12,12 +12,12 @@ Route::get('/user', function (Request $request) {
 // Auth
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum')->name('logout');
 
 Route::get('/verify', [AuthController::class, 'verifyUser'])->name('verify-user');
 Route::post('/resend-link/{id}', [AuthController::class, 'resendLink'])->name('auth.resend-link');
 
 // User
 Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/update-profile', [UserController::class, 'updateProfile'])->name('user.update-profile');
-    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::put('/profile', [UserController::class, 'update'])->name('user.update');
 });

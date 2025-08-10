@@ -22,7 +22,7 @@ class UpdateProfileRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'username' => 'required|string|min:3|max:15|lowercase',
+            'username' => 'required|string|min:3|max:15|lowercase|unique:users,username',
             'password' => 'required|string|min:8|max:15|lowercase|confirmed:password_confirmation',
         ];
     }
