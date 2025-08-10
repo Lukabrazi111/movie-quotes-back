@@ -6,10 +6,12 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Mail\UserVerificationMail;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
+use phpDocumentor\Reflection\Types\Boolean;
 
 class AuthController extends Controller
 {
@@ -141,11 +143,17 @@ class AuthController extends Controller
      * Get user by specific field type
      * @param string $field
      * @param string $value
-     * @return User
+     * @return User|false
      */
-    private function getUserByType(string $field, string $value): User
+    private function getUserByType(string $field, string $value): User|false
     {
-        return User::where($field, $value)->first();
+        $user = User::where($field, $value)->first();
+
+        if(!is_null($user)) {
+            return $user;
+        }
+
+        return false;
     }
 
     public function logout(): \Illuminate\Http\JsonResponse
