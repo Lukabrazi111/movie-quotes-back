@@ -7,12 +7,21 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    // update user profile
-    public function update(UpdateProfileRequest $request)
+    public function update(UpdateProfileRequest $request): \Illuminate\Http\JsonResponse
     {
         $validated = $request->validated();
 
-        auth()->user()->update($validated);
+        $user = auth()->user();
+
+        if($request->has('username')) {
+            $user->username = $validated['username'];
+        }
+
+        if($request->has('password')) {
+            $user->password = bcrypt($validated['password']);
+        }
+
+        $user->save();
 
         return response()->json([
             'status' => true,
