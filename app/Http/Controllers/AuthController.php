@@ -37,11 +37,16 @@ class AuthController extends Controller
 
         $user = $this->getUserByType($fieldType, $validated['email']);
 
-        // TODO: need to check if user is verified
-
         if (!$user || !Hash::check($validated['password'], $user->password)) {
             return response()->json([
                 'message' => 'Invalid credentials',
+            ], 401);
+        }
+
+        if(!$user->hasVerifiedEmail()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Your email address is not verified',
             ], 401);
         }
 
