@@ -26,8 +26,8 @@ class UserController extends Controller
             $user->password = bcrypt($validated['password']);
         }
 
-        if ($request->hasFile('image')) {
-            $user->addMediaFromRequest('image')->toMediaCollection('avatar');
+        if ($request->hasFile('avatar')) {
+            $user->addMediaFromRequest('avatar')->toMediaCollection('avatar');
         }
 
         $user->save();
@@ -35,10 +35,7 @@ class UserController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Profile updated successfully',
+            'user' => $user,
         ]);
-    }
-
-    public function test() {
-        dd(auth()->user()->getLastMediaUrl());
     }
 }
