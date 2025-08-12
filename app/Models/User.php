@@ -3,15 +3,18 @@
 namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable implements MustVerifyEmail, HasMedia
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, HasApiTokens;
+    use HasFactory, Notifiable, HasApiTokens, InteractsWithMedia;
 
     /**
      * The attributes that are mass assignable.
@@ -21,7 +24,6 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $fillable = [
         'username',
         'email',
-        'image',
         'password',
     ];
 
@@ -35,6 +37,10 @@ class User extends Authenticatable implements MustVerifyEmail
         'remember_token',
     ];
 
+    protected $appends = [
+        'avatar'
+    ];
+
     /**
      * Get the attributes that should be cast.
      *
@@ -46,5 +52,11 @@ class User extends Authenticatable implements MustVerifyEmail
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    protected function avatar(): Attribute {
+        return Attribute::make(
+            get: fn () => $this->getLastMediaUrl('avatar'),
+        );
     }
 }
