@@ -24,6 +24,7 @@ class UpdateProfileRequest extends FormRequest
         return [
             'username' => 'sometimes|string|min:3|max:15|lowercase|unique:users,username',
             'password' => 'sometimes|string|min:8|max:15|lowercase|confirmed:password_confirmation',
+            'image' => 'sometimes|image|mimes:jpeg,png,jpg|max:2048',
         ];
     }
 }

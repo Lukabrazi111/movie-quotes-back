@@ -21,6 +21,11 @@ class UserController extends Controller
             $user->password = bcrypt($validated['password']);
         }
 
+        if($request->has('image')) {
+            $image = $request->file('image');
+            // upload file...
+        }
+
         $user->save();
 
         return response()->json([
