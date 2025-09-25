@@ -15,7 +15,7 @@ class AuthService
     {
         $user = User::create($userData);
 
-        $this->sendEmailWithUrl($user);
+        $this->sendEmailWithUrl('verify-user', $user, UserVerificationMail::class);
 
         return $user;
     }
@@ -40,7 +40,7 @@ class AuthService
     public function verifyUser(Request $request): void
     {
         if (!$request->hasValidSignature()) {
-            throw new \Exception('Link expired', 410);
+            throw new \Exception('Verification link expired', 410);
         }
 
         $user = User::findOrFail($request->user);
@@ -64,19 +64,19 @@ class AuthService
             throw new \Exception('User already verified', 409);
         }
 
-        $this->sendEmailWithUrl($user);
+        $this->sendEmailWithUrl('verify-user', $user, UserVerificationMail::class);
     }
 
-    private function sendEmailWithUrl($user): void
+    public function sendEmailWithUrl(string $routeName, object $user, $class): void
     {
-        $tempUrl = $this->createTempUrl($user);
+        $tempUrl = $this->createTempUrl($routeName, $user);
 
-        Mail::to($user)->send(new UserVerificationMail($user->username, $tempUrl));
+        Mail::to($user)->send(new $class($user->username, $tempUrl));
     }
 
-    private function createTempUrl(object $user): string
+    private function createTempUrl(string $routeName, object $user): string
     {
-        $tempUrl = $this->generateTempUrl($user->id);
+        $tempUrl = URL::temporarySignedRoute($routeName, now()->addMinutes(10), ['user' => $user->id]);
 
         /**
          * TODO: update readme.md file with this info
@@ -86,11 +86,6 @@ class AuthService
         $frontUrl = config('app.frontend_url');
 
         return str_replace($backUrl, $frontUrl, $tempUrl);
-    }
-
-    private function generateTempUrl(string $id): string
-    {
-        return URL::temporarySignedRoute('verify-user', now()->addMinutes(10), ['user' => $id]);
     }
 
     /**

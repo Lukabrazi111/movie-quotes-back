@@ -14,8 +14,13 @@ Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum')->name('logout');
 
+// Email verification
 Route::get('/verify', [AuthController::class, 'verifyUser'])->name('verify-user');
-Route::post('/resend-link/{id}', [AuthController::class, 'resendLink'])->name('auth.resend-link');
+Route::post('/resend-link/{id}', [AuthController::class, 'resendEmailVerificationLink'])->name('auth.resend-link');
+
+// Password reset
+Route::post('/forgot-password', [AuthController::class, 'sendResetPassword'])->name('auth.send-reset-password');
+Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('auth.reset-password');
 
 // User
 Route::middleware('auth:sanctum')->group(function () {
