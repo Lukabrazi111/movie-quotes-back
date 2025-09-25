@@ -52,6 +52,21 @@ class AuthService
         $user->markEmailAsVerified();
     }
 
+    public function resendUserLink($id): void
+    {
+        $user = User::find($id);
+
+        if (is_null($user)) {
+            throw new \Exception('User not found', 404);
+        }
+
+        if ($user->hasVerifiedEmail()) {
+            throw new \Exception('User already verified', 409);
+        }
+
+        $this->sendEmailWithUrl($user);
+    }
+
     private function sendEmailWithUrl($user): void
     {
         $tempUrl = $this->createTempUrl($user);

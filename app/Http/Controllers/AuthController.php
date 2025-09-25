@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
-use App\Models\User;
 use App\Services\AuthService;
 use Illuminate\Http\Request;
 
@@ -63,23 +62,14 @@ class AuthController extends Controller
 
     public function resendLink($id): \Illuminate\Http\JsonResponse
     {
-        $user = User::find($id);
-
-        if (is_null($user)) {
-            return response()->json([
-                'status' => false,
-                'message' => 'User not found',
-            ], 404);
+        try {
+            $this->authService->resendUserLink($id);
+        } catch (\Exception $exception) {
+            if ($exception->getCode() === 404) {
+                return response()->json(['message' => $exception->getMessage()], 404);
+            }
+            return response()->json(['message' => $exception->getMessage()], 409);
         }
-
-        if ($user->hasVerifiedEmail()) {
-            return response()->json([
-                'status' => false,
-                'message' => 'User already verified',
-            ], 409);
-        }
-
-        $this->sendEmailWithUrl($user);
 
         return response()->json([
             'status' => true,
