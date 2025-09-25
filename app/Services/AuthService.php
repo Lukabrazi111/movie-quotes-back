@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Mail\UserVerificationMail;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
@@ -36,6 +37,21 @@ class AuthService
         return $user->createToken('auth_token')->plainTextToken;
     }
 
+    public function verifyUser(Request $request): void
+    {
+        if (!$request->hasValidSignature()) {
+            throw new \Exception('Link expired', 410);
+        }
+
+        $user = User::findOrFail($request->user);
+
+        if ($user->hasVerifiedEmail()) {
+            throw new \Exception('User already verified', 409);
+        }
+
+        $user->markEmailAsVerified();
+    }
+
     private function sendEmailWithUrl($user): void
     {
         $tempUrl = $this->createTempUrl($user);
@@ -59,7 +75,7 @@ class AuthService
 
     private function generateTempUrl(string $id): string
     {
-        return URL::temporarySignedRoute('verify-user', now()->addMinutes(15), ['user' => $id]);
+        return URL::temporarySignedRoute('verify-user', now()->addMinutes(10), ['user' => $id]);
     }
 
     /**

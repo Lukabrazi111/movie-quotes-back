@@ -7,7 +7,6 @@ use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use App\Services\AuthService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -48,22 +47,14 @@ class AuthController extends Controller
 
     public function verifyUser(Request $request): \Illuminate\Http\JsonResponse
     {
-        if (!$request->hasValidSignature()) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Link expired',
-            ], 410);
+        try {
+            $this->authService->verifyUser($request);
+        } catch (\Exception $exception) {
+            if ($exception->getCode() === 410) {
+                return response()->json(['message' => $exception->getMessage()], 410);
+            }
+            return response()->json(['message' => $exception->getMessage()], 409);
         }
-
-        $user = User::findOrFail($request->user);
-
-        if ($user->hasVerifiedEmail()) {
-            return response()->json([
-                'message' => 'User already verified',
-            ], 409);
-        }
-
-        $user->markEmailAsVerified();
 
         return response()->json([
             'message' => 'User successfully verified'
