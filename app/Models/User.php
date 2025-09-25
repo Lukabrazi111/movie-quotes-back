@@ -54,9 +54,10 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
         ];
     }
 
-    protected function avatar(): Attribute {
+    protected function avatar(): Attribute
+    {
         return Attribute::make(
-            get: fn () => $this->getLastMediaUrl('avatar'),
+            get: fn() => $this->getLastMediaUrl('avatar'),
         );
     }
 }
