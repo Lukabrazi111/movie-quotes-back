@@ -35,10 +35,7 @@ class ResetPasswordController extends Controller
         try {
             $user = $this->resetPasswordService->resetPassword($request, $validated);
         } catch (\Exception $exception) {
-            $code = (int)$exception->getCode();
-            return match ($code) {
-                410, 404, 422 => response()->json(['message' => $exception->getMessage()], $exception->getCode()),
-            };
+            return response()->json(['message' => $exception->getMessage()], $exception->getCode());
         }
 
         return response()->json([
