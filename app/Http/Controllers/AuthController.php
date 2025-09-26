@@ -4,13 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
-use App\Http\Requests\ResetPasswordRequest;
-use App\Http\Requests\SendResetPasswordRequest;
-use App\Mail\ResetPasswordMail;
-use App\Models\User;
 use App\Services\AuthService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -46,56 +41,6 @@ class AuthController extends Controller
 
         return response()->json([
             'token' => $token,
-        ]);
-    }
-
-    public function sendResetPassword(SendResetPasswordRequest $request): \Illuminate\Http\JsonResponse
-    {
-        $validated = $request->validated();
-
-        $user = User::whereEmail($validated['email'])->first();
-
-        if (!$user) {
-            return response()->json([
-                'message' => 'User not found',
-            ], 404);
-        }
-
-        $this->authService->sendEmailWithUrl('auth.reset-password', $user, ResetPasswordMail::class);
-
-        return response()->json([
-            'message' => 'We\'ve sent a reset password link to your email',
-        ]);
-    }
-
-    public function resetPassword(ResetPasswordRequest $request): \Illuminate\Http\JsonResponse
-    {
-        if (!$request->hasValidSignature()) {
-            return response()->json([
-                'message' => 'Reset password link expired',
-            ], 410);
-        }
-
-        $validated = $request->validated();
-
-        $user = User::find($request->user);
-
-        if (!$user) {
-            return response()->json([
-                'message' => 'User not found',
-            ]);
-        }
-
-        if (Hash::check($validated['password'], $user->password)) {
-            return response()->json([
-                'message' => 'This is your old password, enter new password',
-            ]);
-        }
-
-        $user->update(['password' => $validated['password']]);
-
-        return response()->json([
-            'message' => 'Your password changed successfully',
         ]);
     }
 

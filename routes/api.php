@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -19,8 +20,8 @@ Route::get('/verify', [AuthController::class, 'verifyUser'])->name('verify-user'
 Route::post('/resend-link/{id}', [AuthController::class, 'resendEmailVerificationLink'])->name('auth.resend-link');
 
 // Password reset
-Route::post('/forgot-password', [AuthController::class, 'sendResetPassword'])->name('auth.send-reset-password');
-Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('auth.reset-password');
+Route::post('/forgot-password', [ResetPasswordController::class, 'sendResetPassword'])->name('auth.send-reset-password');
+Route::post('/reset-password', [ResetPasswordController::class, 'resetPassword'])->name('auth.reset-password');
 
 // User
 Route::middleware('auth:sanctum')->group(function () {
