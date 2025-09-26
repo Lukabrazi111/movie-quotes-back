@@ -30,6 +30,32 @@ class ResetPasswordService
         return $user;
     }
 
+    private function saveToken($user): string
+    {
+        $email = $user->email;
+
+        $tokenExists = $this->isEmailExists($email);
+
+        if ($tokenExists) {
+            ResetPassword::whereEmail($user->email)->delete();
+        }
+
+        $token = Str::random(30);
+
+        ResetPassword::create([
+            'token' => $token,
+            'email' => $email,
+            'created_at' => now(),
+        ]);
+
+        return $token;
+    }
+
+    private function isEmailExists(string $email): bool
+    {
+        return ResetPassword::whereEmail($email)->exists();
+    }
+
     private function createTempUrl(int $userId, string $token): string
     {
         $tempUrl = URL::temporarySignedRoute('auth.reset-password', now()->addMinutes(10), ['user' => $userId, 'token' => $token]);
@@ -45,40 +71,25 @@ class ResetPasswordService
         }
 
         $user = User::find($request->user);
+        $token = $request->token ?? '';
 
-        if (!$user) {
-            throw new \Exception('User not found', 404);
+        if (!$this->isTokenExists($token)) {
+            throw new \Exception('You can\'t reset your password', 400);
         }
 
         if (Hash::check($validated['password'], $user->password)) {
             throw new \Exception('This is your old password, enter new password', 422);
         }
 
+        ResetPassword::whereToken($token)->delete();
+
         $user->update(['password' => bcrypt($validated['password'])]);
 
         return $user;
     }
 
-    private function saveToken($user): string
+    private function isTokenExists(string $token): bool
     {
-        $email = $user->email;
-
-        $exists = ResetPassword::whereEmail($user->email)->first();
-
-        // TODO: maybe need to check if exists delete previous and add new one
-        // after that delete token from database if user already did the action
-        if($exists) {
-            throw new \Exception('We already sent reset password email', 403);
-        }
-
-        $token = Str::random(60);
-
-        ResetPassword::create([
-            'token' => $token,
-            'email' => $email,
-            'created_at' => now(),
-        ]);
-
-        return $token;
+        return ResetPassword::whereToken($token)->exists();
     }
 }
