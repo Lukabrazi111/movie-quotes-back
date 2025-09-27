@@ -81,7 +81,7 @@ class ResetPasswordService
             throw new \Exception('This is your old password, enter new password', 422);
         }
 
-        ResetPassword::whereToken($token)->delete();
+        $this->deleteByToken($token);
 
         $user->update(['password' => bcrypt($validated['password'])]);
 
@@ -91,5 +91,10 @@ class ResetPasswordService
     private function isTokenExists(string $token): bool
     {
         return ResetPassword::whereToken($token)->exists();
+    }
+
+    private function deleteByToken(string $token)
+    {
+        return ResetPassword::whereToken($token)->delete();
     }
 }
