@@ -22,8 +22,9 @@ class ResetPasswordService
             throw new \Exception('User not found', 404);
         }
 
-        $token = $this->saveToken($user);
-        $tempUrl = $this->createTempUrl($user->id, $token);
+        $this->saveToken($user);
+
+        $tempUrl = $this->createTempUrl($user->id);
 
         Mail::to($user)->send(new ResetPasswordMail($user->username, $tempUrl));
 
@@ -34,9 +35,9 @@ class ResetPasswordService
     {
         $email = $user->email;
 
-        $tokenExists = $this->isEmailExists($email);
+        $emailExists = $this->isEmailExists($email);
 
-        if ($tokenExists) {
+        if ($emailExists) {
             ResetPassword::whereEmail($user->email)->delete();
         }
 
@@ -56,9 +57,9 @@ class ResetPasswordService
         return ResetPassword::whereEmail($email)->exists();
     }
 
-    private function createTempUrl(int $userId, string $token): string
+    private function createTempUrl(int $userId): string
     {
-        $tempUrl = URL::temporarySignedRoute('reset-password', now()->addMinutes(10), ['user' => $userId, 'token' => $token]);
+        $tempUrl = URL::temporarySignedRoute('reset-password', now()->addMinutes(15), ['user' => $userId]);
         $backUrl = config('app.url') . '/api';
         $frontUrl = config('app.frontend_url');
         return str_replace($backUrl, $frontUrl, $tempUrl);
@@ -71,9 +72,10 @@ class ResetPasswordService
         }
 
         $user = User::find($request->user);
-        $token = $request->token ?? '';
 
-        if (!$this->isTokenExists($token)) {
+        $resetToken = $this->getTokenByEmail($user->email);
+
+        if (!$resetToken) {
             throw new \Exception('You can\'t reset your password', 400);
         }
 
@@ -81,29 +83,20 @@ class ResetPasswordService
             throw new \Exception('This is your old password, enter new password', 422);
         }
 
-        $this->deleteByToken($token);
+        $this->deleteTokenByEmail($user->email);
 
         $user->update(['password' => bcrypt($validated['password'])]);
 
         return $user;
     }
 
-    private function isTokenExists(string $token): bool
+    private function getTokenByEmail(string $email): bool
     {
-        return ResetPassword::whereToken($token)->exists();
+        return ResetPassword::whereEmail($email)->exists();
     }
 
-    private function deleteByToken(string $token)
+    private function deleteTokenByEmail(string $email)
     {
-        return ResetPassword::whereToken($token)->delete();
-    }
-
-    public function getToken(string $token): string
-    {
-        if (!$this->isTokenExists($token)) {
-            throw new \Exception('Token not found', 404);
-        }
-
-        return $token;
+        return ResetPassword::whereEmail($email)->delete();
     }
 }

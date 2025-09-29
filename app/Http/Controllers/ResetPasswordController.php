@@ -43,17 +43,4 @@ class ResetPasswordController extends Controller
             'message' => 'Your password changed successfully',
         ]);
     }
-
-    public function checkTokenExistence(string $token): \Illuminate\Http\JsonResponse
-    {
-        try {
-            $finalToken = $this->resetPasswordService->getToken($token);
-        } catch (\Exception $exception) {
-            return response()->json(['message' => $exception->getMessage()], $exception->getCode());
-        }
-
-        return response()->json([
-            'token' => $finalToken,
-        ]);
-    }
 }

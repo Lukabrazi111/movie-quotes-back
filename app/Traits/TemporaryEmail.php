@@ -17,7 +17,7 @@ trait TemporaryEmail
 
     public function createTempUrl(string $routeName, object $user): string
     {
-        $tempUrl = URL::temporarySignedRoute($routeName, now()->addMinutes(10), ['user' => $user->id]);
+        $tempUrl = URL::temporarySignedRoute($routeName, now()->addMinutes(15), ['user' => $user->id]);
 
         /**
          * TODO: update readme.md file with this info
