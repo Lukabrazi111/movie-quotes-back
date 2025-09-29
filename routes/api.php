@@ -20,8 +20,9 @@ Route::get('/verify', [AuthController::class, 'verifyUser'])->name('verify-user'
 Route::post('/resend-link/{id}', [AuthController::class, 'resendEmailVerificationLink'])->name('auth.resend-link');
 
 // Password reset
-Route::post('/forgot-password', [ResetPasswordController::class, 'sendResetPassword'])->name('auth.send-reset-password');
-Route::post('/reset-password', [ResetPasswordController::class, 'resetPassword'])->name('auth.reset-password');
+Route::post('/forgot-password', [ResetPasswordController::class, 'sendResetPassword'])->name('send-reset-password');
+Route::post('/reset-password', [ResetPasswordController::class, 'resetPassword'])->name('reset-password');
+Route::get('/reset-password/{token}', [ResetPasswordController::class, 'checkTokenExistence'])->name('check-token-existence');
 
 // User
 Route::middleware('auth:sanctum')->group(function () {

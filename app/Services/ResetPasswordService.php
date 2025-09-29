@@ -58,7 +58,7 @@ class ResetPasswordService
 
     private function createTempUrl(int $userId, string $token): string
     {
-        $tempUrl = URL::temporarySignedRoute('auth.reset-password', now()->addMinutes(10), ['user' => $userId, 'token' => $token]);
+        $tempUrl = URL::temporarySignedRoute('reset-password', now()->addMinutes(10), ['user' => $userId, 'token' => $token]);
         $backUrl = config('app.url') . '/api';
         $frontUrl = config('app.frontend_url');
         return str_replace($backUrl, $frontUrl, $tempUrl);
@@ -96,5 +96,14 @@ class ResetPasswordService
     private function deleteByToken(string $token)
     {
         return ResetPassword::whereToken($token)->delete();
+    }
+
+    public function getToken(string $token): string
+    {
+        if (!$this->isTokenExists($token)) {
+            throw new \Exception('Token not found', 404);
+        }
+
+        return $token;
     }
 }
