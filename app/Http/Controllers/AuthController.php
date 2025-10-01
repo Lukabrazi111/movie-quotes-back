@@ -34,12 +34,13 @@ class AuthController extends Controller
         $validated = $request->validated();
 
         try {
-            $token = $this->authService->createToken($validated);
+            ['token' => $token, 'user' => $user] = $this->authService->createToken($validated);
         } catch (\Exception $exception) {
             return response()->json(['message' => $exception->getMessage()], 401);
         }
 
         return response()->json([
+            'user' => $user,
             'token' => $token,
         ]);
     }

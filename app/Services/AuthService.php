@@ -21,7 +21,7 @@ class AuthService
         return $user;
     }
 
-    public function createToken(array $data): string
+    public function createToken(array $data): array
     {
         $fieldType = $this->getCredentialFieldType($data['email']);
 
@@ -35,7 +35,12 @@ class AuthService
             throw new \Exception('Your email address is not verified', 401);
         }
 
-        return $user->createToken('auth_token')->plainTextToken;
+        $token = $user->createToken('auth_token')->plainTextToken;
+
+        return [
+            'token' => $token,
+            'user' => $user,
+        ];
     }
 
     public function verifyUser(Request $request): void

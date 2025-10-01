@@ -43,4 +43,18 @@ class ResetPasswordController extends Controller
             'message' => 'Your password changed successfully',
         ]);
     }
+
+    public function checkToken(string $token): \Illuminate\Http\JsonResponse
+    {
+        try {
+            $email = $this->resetPasswordService->getUserEmail($token);
+        } catch (\Exception $exception) {
+            return response()->json(['message' => $exception->getMessage()], $exception->getCode());
+        }
+
+        return response()->json([
+            'success' => true,
+            'email' => $email,
+        ]);
+    }
 }

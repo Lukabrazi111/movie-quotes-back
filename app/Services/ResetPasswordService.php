@@ -23,7 +23,9 @@ class ResetPasswordService
 
         $token = $this->saveToken($user);
 
-        Mail::to($user)->send(new ResetPasswordMail($user->username, $token));
+        $url = $this->changeUrl($token);
+
+        Mail::to($user)->send(new ResetPasswordMail($user->username, $url));
 
         return $user;
     }
@@ -55,15 +57,24 @@ class ResetPasswordService
         return ResetPassword::whereEmail($email)->exists();
     }
 
+    private function changeUrl(string $token): string
+    {
+        $url = route('reset-password.check-token', $token);
+        $backUrl = config('app.url') . '/api';
+        $frontUrl = config('app.frontend_url');
+
+        return str_replace($backUrl, $frontUrl, $url);
+    }
+
     public function resetPassword(ResetPasswordRequest $request, array $validated): User|JsonResponse
     {
         $token = $request->token ?? '';
 
-        if (!$this->getUserByToken($token)) {
+        if (!$this->getToken($token)) {
             throw new \Exception('You can\'t reset your password', 400);
         }
 
-        $email = $this->getUserByToken($token)->email;
+        $email = $this->getToken($token)->email;
 
         $user = User::whereEmail($email)->first();
 
@@ -78,13 +89,25 @@ class ResetPasswordService
         return $user;
     }
 
+    private function getToken(string $token)
+    {
+        return ResetPassword::whereToken($token)->first();
+    }
+
     private function deleteResetPasswordToken(string $token): bool
     {
         return ResetPassword::whereToken($token)->delete();
     }
 
-    private function getUserByToken(string $token)
+    public function getUserEmail(string $token)
     {
-        return ResetPassword::whereToken($token)->first();
+        $resetPassword = $this->getToken($token);
+
+        if (!$resetPassword) {
+            throw new \Exception('Invalid or expired token', 404);
+        }
+
+
+        return $resetPassword->email;
     }
 }
