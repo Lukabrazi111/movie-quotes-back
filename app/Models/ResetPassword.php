@@ -8,7 +8,6 @@ class ResetPassword extends Model
 {
     public $timestamps = false;
     protected $table = 'password_reset_tokens';
-    protected $primaryKey = 'email';
     protected $casts = [
         'created_at' => 'datetime',
     ];

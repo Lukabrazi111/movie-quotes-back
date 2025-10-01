@@ -9,7 +9,6 @@ use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 
 class ResetPasswordService
@@ -22,11 +21,9 @@ class ResetPasswordService
             throw new \Exception('User not found', 404);
         }
 
-        $this->saveToken($user);
+        $token = $this->saveToken($user);
 
-        $tempUrl = $this->createTempUrl($user->id);
-
-        Mail::to($user)->send(new ResetPasswordMail($user->username, $tempUrl));
+        Mail::to($user)->send(new ResetPasswordMail($user->username, $token));
 
         return $user;
     }
@@ -43,6 +40,7 @@ class ResetPasswordService
 
         $token = Str::random(30);
 
+        // TODO: maybe we can create relationship between user and reset password model
         ResetPassword::create([
             'token' => $token,
             'email' => $email,
@@ -57,46 +55,36 @@ class ResetPasswordService
         return ResetPassword::whereEmail($email)->exists();
     }
 
-    private function createTempUrl(int $userId): string
-    {
-        $tempUrl = URL::temporarySignedRoute('reset-password', now()->addMinutes(15), ['user' => $userId]);
-        $backUrl = config('app.url') . '/api';
-        $frontUrl = config('app.frontend_url');
-        return str_replace($backUrl, $frontUrl, $tempUrl);
-    }
-
     public function resetPassword(ResetPasswordRequest $request, array $validated): User|JsonResponse
     {
-        if (!$request->hasValidSignature()) {
-            throw new \Exception('Reset password link expired', 410);
-        }
+        $token = $request->token ?? '';
 
-        $user = User::find($request->user);
-
-        $resetToken = $this->getTokenByEmail($user->email);
-
-        if (!$resetToken) {
+        if (!$this->getUserByToken($token)) {
             throw new \Exception('You can\'t reset your password', 400);
         }
+
+        $email = $this->getUserByToken($token)->email;
+
+        $user = User::whereEmail($email)->first();
 
         if (Hash::check($validated['password'], $user->password)) {
             throw new \Exception('This is your old password, enter new password', 422);
         }
 
-        $this->deleteTokenByEmail($user->email);
+        $this->deleteResetPasswordToken($token);
 
         $user->update(['password' => bcrypt($validated['password'])]);
 
         return $user;
     }
 
-    private function getTokenByEmail(string $email): bool
+    private function deleteResetPasswordToken(string $token): bool
     {
-        return ResetPassword::whereEmail($email)->exists();
+        return ResetPassword::whereToken($token)->delete();
     }
 
-    private function deleteTokenByEmail(string $email)
+    private function getUserByToken(string $token)
     {
-        return ResetPassword::whereEmail($email)->delete();
+        return ResetPassword::whereToken($token)->first();
     }
 }

@@ -32,14 +32,14 @@
 
         <p>Hey, please click the button below for reset your password:</p>
 
-        <a href="{{ $url }}" class="bg-[#E31221] hover:bg-[#CC0E10] text-white px-3 py-1.5 rounded">
+        <a href="{{ route('reset-password', $token) }}" class="bg-[#E31221] hover:bg-[#CC0E10] text-white px-3 py-1.5 rounded">
             Reset password
         </a>
 
         <p>If clicking doesn't work, you can try copying and pasting it to your browser:</p>
 
-        <a href="{{ $url }}" class="text-[#DDCCAA]">
-            {{ $url }}
+        <a href="{{ route('reset-password', $token) }}" class="text-[#DDCCAA]">
+            {{ route('reset-password', $token) }}
         </a>
 
         <p>If you have any problems, please contact us: support@examplemoviequotes.com</p>

@@ -21,7 +21,7 @@ Route::post('/resend-link/{id}', [AuthController::class, 'resendEmailVerificatio
 
 // Password reset
 Route::post('/forgot-password', [ResetPasswordController::class, 'sendResetPassword'])->name('send-reset-password');
-Route::post('/reset-password', [ResetPasswordController::class, 'resetPassword'])->name('reset-password');
+Route::post('/reset-password/{token}', [ResetPasswordController::class, 'resetPassword'])->name('reset-password');
 // User
 Route::middleware('auth:sanctum')->group(function () {
     Route::put('/profile', [UserController::class, 'update'])->name('user.update');
