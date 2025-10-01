@@ -50,10 +50,7 @@ class AuthController extends Controller
         try {
             $this->authService->verifyUser($request);
         } catch (\Exception $exception) {
-            if ($exception->getCode() === 410) {
-                return response()->json(['message' => $exception->getMessage()], 410);
-            }
-            return response()->json(['message' => $exception->getMessage()], 409);
+            return response()->json(['message' => $exception->getMessage()], $exception->getCode());
         }
 
         return response()->json([
