@@ -101,13 +101,12 @@ class ResetPasswordService
 
     public function getUserEmail(string $token)
     {
-        $resetPassword = $this->getToken($token);
+        $resetPasswordData = $this->getToken($token);
 
-        if (!$resetPassword) {
+        if (!$resetPasswordData) {
             throw new \Exception('Invalid or expired token', 404);
         }
 
-
-        return $resetPassword->email;
+        return $resetPasswordData->email;
     }
 }
