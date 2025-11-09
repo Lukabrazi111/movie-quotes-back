@@ -42,7 +42,6 @@ class ResetPasswordService
 
         $token = Str::random(30);
 
-        // TODO: maybe we can create relationship between user and reset password model
         ResetPassword::create([
             'token' => $token,
             'email' => $email,
