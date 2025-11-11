@@ -46,7 +46,10 @@ class UserController extends Controller
      */
     private function uploadAvatar(User $user): void
     {
-        $user->clearMediaCollection('avatar');
+        if ($user->hasMedia('avatar')) {
+            $user->clearMediaCollection('avatar');
+        }
+
         $user->addMediaFromRequest('avatar')->toMediaCollection('avatar');
     }
 }
