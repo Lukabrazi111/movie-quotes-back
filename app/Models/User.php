@@ -58,6 +58,11 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
         return $this->hasMany(Quote::class);
     }
 
+    public function likes(): HasMany
+    {
+        return $this->hasMany(Like::class);
+    }
+
     /**
      * Get the attributes that should be cast.
      *

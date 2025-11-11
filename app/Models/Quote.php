@@ -19,6 +19,11 @@ class Quote extends Model
         'thumbnail',
     ];
 
+    public function likes(): HasMany
+    {
+        return $this->hasMany(Like::class)->where('like', true);
+    }
+
     public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);
