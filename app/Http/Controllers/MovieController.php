@@ -17,7 +17,12 @@ class MovieController extends Controller
      */
     public function index()
     {
-        //
+        $movies = $this->movieService->getUserMovies();
+
+        return response()->json([
+            'movies' => $movies,
+            'success' => true,
+        ]);
     }
 
     /**
