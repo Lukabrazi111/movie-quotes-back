@@ -37,6 +37,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
     protected $hidden = [
         'password',
         'remember_token',
+        'media',
     ];
 
     protected $appends = [
@@ -56,11 +57,6 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
     public function quotes(): HasMany
     {
         return $this->hasMany(Quote::class);
-    }
-
-    public function likes(): HasMany
-    {
-        return $this->hasMany(Like::class);
     }
 
     /**

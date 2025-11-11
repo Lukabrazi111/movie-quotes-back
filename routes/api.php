@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\MovieController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -29,5 +30,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/profile', [UserController::class, 'update'])->name('user.update');
 
     // Movies
-
+    Route::post('/movies', [MovieController::class, 'store'])->name('movies.store');
 });

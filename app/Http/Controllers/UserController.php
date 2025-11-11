@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateProfileRequest;
+use App\Models\User;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
 
@@ -27,7 +28,7 @@ class UserController extends Controller
         }
 
         if ($request->hasFile('avatar')) {
-            $user->addMediaFromRequest('avatar')->toMediaCollection('avatar');
+            $this->uploadAvatar($user);
         }
 
         $user->save();
@@ -37,5 +38,15 @@ class UserController extends Controller
             'message' => 'Profile updated successfully',
             'user' => $user,
         ]);
+    }
+
+    /**
+     * @throws FileDoesNotExist
+     * @throws FileIsTooBig
+     */
+    private function uploadAvatar(User $user): void
+    {
+        $user->clearMediaCollection('avatar');
+        $user->addMediaFromRequest('avatar')->toMediaCollection('avatar');
     }
 }
