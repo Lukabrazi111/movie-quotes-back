@@ -5,20 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Movie extends Model
+class Comment extends Model
 {
-    /** @use HasFactory<\Database\Factories\MovieFactory> */
+    /** @use HasFactory<\Database\Factories\CommentFactory> */
     use HasFactory;
 
     protected $fillable = [
         'user_id',
-        'title',
-        'description',
-        'director',
-        'thumbnail',
-        'release_year',
+        'quote_id',
+        'body',
     ];
 
     public function user(): BelongsTo
@@ -26,8 +22,8 @@ class Movie extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function quotes(): HasMany
+    public function quote(): BelongsTo
     {
-        return $this->hasMany(Quote::class);
+        return $this->belongsTo(Quote::class);
     }
 }
