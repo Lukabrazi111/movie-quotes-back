@@ -8,7 +8,6 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class MovieService
 {
-
     public function getUserMovies(): \Illuminate\Database\Eloquent\Collection
     {
         $movies = auth()->user()->movies();

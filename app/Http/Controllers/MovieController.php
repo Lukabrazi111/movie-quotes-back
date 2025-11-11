@@ -21,6 +21,7 @@ class MovieController extends Controller
 
         return response()->json([
             'movies' => $movies,
+            'count' => $movies->count(),
             'success' => true,
         ]);
     }
