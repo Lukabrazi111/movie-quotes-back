@@ -20,7 +20,6 @@ class Movie extends Model implements HasMedia
         'title',
         'description',
         'director',
-        'thumbnail',
         'release_year',
     ];
 

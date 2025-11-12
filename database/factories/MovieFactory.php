@@ -22,7 +22,6 @@ class MovieFactory extends Factory
             'title' => $this->faker->sentence(2),
             'description' => $this->faker->text(),
             'director' => $this->faker->name(),
-            'thumbnail' => $this->faker->imageUrl(),
             'release_year' => $this->faker->year(),
         ];
     }

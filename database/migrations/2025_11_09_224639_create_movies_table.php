@@ -16,7 +16,6 @@ return new class extends Migration {
             $table->string('title')->unique();
             $table->text('description');
             $table->string('director');
-            $table->string('thumbnail');
             $table->year('release_year');
             $table->timestamps();
         });

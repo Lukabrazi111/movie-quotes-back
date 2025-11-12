@@ -16,7 +16,6 @@ class Quote extends Model
         'user_id',
         'movie_id',
         'description',
-        'thumbnail',
     ];
 
     public function likes(): HasMany

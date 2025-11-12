@@ -10,12 +10,10 @@ class MovieService
 {
     public function getUserMovies(): \Illuminate\Database\Eloquent\Collection
     {
-        $movies = auth()->user()->movies();
-
-        $moviesQuery = QueryBuilder::for($movies)
+        $moviesQuery = QueryBuilder::for(Movie::class)
             ->allowedIncludes(['quotes'])
             ->withCount('quotes')
-            ->withExists('quotes')
+            ->where('user_id', auth()->id())
             ->allowedFilters(['title', 'release_year']);
 
         return $moviesQuery->get();

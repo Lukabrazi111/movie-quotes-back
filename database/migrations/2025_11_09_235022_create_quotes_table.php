@@ -15,7 +15,6 @@ return new class extends Migration {
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('movie_id')->constrained('movies')->onDelete('cascade');
             $table->text('description');
-            $table->string('thumbnail');
             $table->timestamps();
         });
     }

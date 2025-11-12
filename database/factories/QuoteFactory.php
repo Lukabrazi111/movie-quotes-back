@@ -22,7 +22,6 @@ class QuoteFactory extends Factory
             'user_id' => User::factory(),
             'movie_id' => Movie::factory(),
             'description' => $this->faker->text(),
-            'thumbnail' => $this->faker->imageUrl(),
         ];
     }
 }
