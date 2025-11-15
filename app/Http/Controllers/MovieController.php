@@ -17,11 +17,11 @@ class MovieController extends Controller
      */
     public function index()
     {
-        $movies = $this->movieService->getUserMovies();
+        list($movies, $count) = $this->movieService->getUserMovies();
 
         return response()->json([
             'movies' => $movies,
-            'count' => $movies->count(),
+            'count' => $count,
             'success' => true,
         ]);
     }

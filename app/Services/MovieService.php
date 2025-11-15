@@ -8,15 +8,22 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class MovieService
 {
-    public function getUserMovies(): \Illuminate\Database\Eloquent\Collection
+    public function getUserMovies(): array
     {
+        $userId = auth()->id();
+
         $moviesQuery = QueryBuilder::for(Movie::class)
             ->allowedIncludes(['quotes'])
             ->withCount('quotes')
-            ->where('user_id', auth()->id())
+            ->where('user_id', $userId)
             ->allowedFilters(['title', 'release_year']);
 
-        return $moviesQuery->get();
+        $moviesCount = Movie::where('user_id', $userId)->count();
+
+        return [
+            $moviesQuery->get(),
+            $moviesCount,
+        ];
     }
 
     public function createMovie(array $data, MovieRequest $request): Movie
