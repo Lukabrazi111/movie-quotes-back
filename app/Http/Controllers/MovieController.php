@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\MovieRequest;
+use App\Http\Requests\UpdateMovieRequest;
+use App\Models\Genre;
 use App\Models\Movie;
 use App\Services\MovieService;
-use Illuminate\Http\Request;
 
 class MovieController extends Controller
 {
@@ -63,9 +64,28 @@ class MovieController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateMovieRequest $request, string $id)
     {
-        //
+        $validated = $request->validated();
+
+        $movie = Movie::find($id);
+
+        if ($request->hasFile('thumbnail')) {
+            uploadImage($movie, $request->file('thumbnail'), 'movie/thumbnail');
+        }
+
+        $genreIds = Genre::whereIn('name', $validated['genres'])->pluck('id')->toArray();
+
+        $movie->genres()->syncWithoutDetaching($genreIds);
+
+        $movie->update($validated);
+
+        $movie->load(['genres', 'quotes']);
+
+        return response()->json([
+            'movie' => $movie,
+            'success' => true,
+        ]);
     }
 
     /**

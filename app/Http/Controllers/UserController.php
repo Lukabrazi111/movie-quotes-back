@@ -9,10 +9,6 @@ use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
 
 class UserController extends Controller
 {
-    /**
-     * @throws FileIsTooBig
-     * @throws FileDoesNotExist
-     */
     public function update(UpdateProfileRequest $request): \Illuminate\Http\JsonResponse
     {
         $validated = $request->validated();
@@ -28,7 +24,7 @@ class UserController extends Controller
         }
 
         if ($request->hasFile('avatar')) {
-            $this->uploadAvatar($user);
+            uploadImage($user, $request->file('avatar'), 'avatar');
         }
 
         $user->save();
@@ -38,18 +34,5 @@ class UserController extends Controller
             'message' => 'Profile updated successfully',
             'user' => $user,
         ]);
-    }
-
-    /**
-     * @throws FileDoesNotExist
-     * @throws FileIsTooBig
-     */
-    private function uploadAvatar(User $user): void
-    {
-        if ($user->hasMedia('avatar')) {
-            $user->clearMediaCollection('avatar');
-        }
-
-        $user->addMediaFromRequest('avatar')->toMediaCollection('avatar');
     }
 }
