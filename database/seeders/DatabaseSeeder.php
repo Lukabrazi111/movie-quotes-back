@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             MovieSeeder::class,
             QuoteSeeder::class,
             CommentSeeder::class,
+            GenreSeeder::class,
         ]);
     }
 }

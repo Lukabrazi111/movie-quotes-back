@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\MovieRequest;
+use App\Models\Movie;
 use App\Services\MovieService;
 use Illuminate\Http\Request;
 
@@ -49,9 +50,14 @@ class MovieController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Movie $movie)
     {
-        //
+        $movie->load(['genres', 'quotes']);
+
+        return response()->json([
+            'movie' => $movie,
+            'success' => true,
+        ]);
     }
 
     /**
