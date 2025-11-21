@@ -30,9 +30,9 @@ class UserController extends Controller
         $user->save();
 
         return response()->json([
-            'status' => true,
-            'message' => 'Profile updated successfully',
             'user' => $user,
+            'message' => 'Profile updated successfully',
+            'success' => true,
         ]);
     }
 }

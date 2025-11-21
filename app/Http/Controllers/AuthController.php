@@ -54,7 +54,8 @@ class AuthController extends Controller
         }
 
         return response()->json([
-            'message' => 'User successfully verified'
+            'message' => 'User successfully verified',
+            'success' => true,
         ]);
     }
 
@@ -70,8 +71,8 @@ class AuthController extends Controller
         }
 
         return response()->json([
-            'status' => true,
             'message' => 'We\'ve sent a verification link to your email',
+            'success' => true,
         ]);
     }
 
@@ -80,8 +81,8 @@ class AuthController extends Controller
         auth()->user()->tokens()->delete();
 
         return response()->json([
-            'status' => true,
             'message' => 'User logged out',
+            'success' => true,
         ]);
     }
 }

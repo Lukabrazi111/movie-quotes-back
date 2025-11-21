@@ -46,6 +46,7 @@ class MovieController extends Controller
         return response()->json([
             'movie' => new MovieResource($movie),
             'message' => 'Movie created successfully',
+            'success' => true,
         ]);
     }
 

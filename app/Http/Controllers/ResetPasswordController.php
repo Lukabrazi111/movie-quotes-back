@@ -25,6 +25,7 @@ class ResetPasswordController extends Controller
         return response()->json([
             'user' => $user->only('username', 'email'),
             'message' => 'We\'ve sent a reset password link to your email',
+            'success' => true,
         ]);
     }
 
@@ -41,6 +42,7 @@ class ResetPasswordController extends Controller
         return response()->json([
             'user' => $user->only('username', 'password'),
             'message' => 'Your password changed successfully',
+            'success' => true,
         ]);
     }
 
@@ -53,8 +55,8 @@ class ResetPasswordController extends Controller
         }
 
         return response()->json([
-            'success' => true,
             'email' => $email,
+            'success' => true,
         ]);
     }
 }
