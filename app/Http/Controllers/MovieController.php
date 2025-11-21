@@ -66,9 +66,17 @@ class MovieController extends Controller
      */
     public function update(UpdateMovieRequest $request, string $id)
     {
+        // TODO: Need to add service
         $validated = $request->validated();
 
         $movie = Movie::find($id);
+
+        if (is_null($movie)) {
+            return response()->json([
+                'message' => 'Movie not found',
+                'success' => false,
+            ]);
+        }
 
         if ($request->hasFile('thumbnail')) {
             uploadImage($movie, $request->file('thumbnail'), 'movie/thumbnail');
@@ -91,8 +99,13 @@ class MovieController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Movie $movie)
     {
-        //
+        $movie->delete();
+
+        return response()->json([
+            'message' => 'Movie deleted successfully',
+            'success' => true,
+        ]);
     }
 }
