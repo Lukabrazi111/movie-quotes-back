@@ -66,29 +66,13 @@ class MovieController extends Controller
      */
     public function update(UpdateMovieRequest $request, string $id)
     {
-        // TODO: Need to add service
         $validated = $request->validated();
 
-        $movie = Movie::find($id);
-
-        if (is_null($movie)) {
-            return response()->json([
-                'message' => 'Movie not found',
-                'success' => false,
-            ]);
+        try {
+            $movie = $this->movieService->updateMovie($request, $validated, $id);
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()], $e->getCode());
         }
-
-        if ($request->hasFile('thumbnail')) {
-            uploadImage($movie, $request->file('thumbnail'), 'movie/thumbnail');
-        }
-
-        $genreIds = Genre::whereIn('name', $validated['genres'])->pluck('id')->toArray();
-
-        $movie->genres()->syncWithoutDetaching($genreIds);
-
-        $movie->update($validated);
-
-        $movie->load(['genres', 'quotes']);
 
         return response()->json([
             'movie' => $movie,

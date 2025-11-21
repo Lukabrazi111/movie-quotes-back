@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Http\Requests\MovieRequest;
+use App\Http\Requests\UpdateMovieRequest;
+use App\Models\Genre;
 use App\Models\Movie;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -34,6 +36,29 @@ class MovieService
             $file = $request->file('thumbnail');
             $movie->addMedia($file)->toMediaCollection('movies/thumbnail');
         }
+
+        return $movie;
+    }
+
+    public function updateMovie(UpdateMovieRequest $request, array $validated, string $id): Movie
+    {
+        $movie = Movie::find($id);
+
+        if (is_null($movie)) {
+            throw new \Exception('Movie not found', 404);
+        }
+
+        if ($request->hasFile('thumbnail')) {
+            uploadImage($movie, $request->file('thumbnail'), 'movie/thumbnail');
+        }
+
+        $genreIds = Genre::whereIn('name', $validated['genres'])->pluck('id')->toArray();
+
+        $movie->genres()->syncWithoutDetaching($genreIds);
+
+        $movie->update($validated);
+
+        $movie->load(['genres', 'quotes']);
 
         return $movie;
     }
