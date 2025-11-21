@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\MovieRequest;
 use App\Http\Requests\UpdateMovieRequest;
-use App\Models\Genre;
+use App\Http\Resources\MovieCollectionResource;
+use App\Http\Resources\MovieResource;
 use App\Models\Movie;
 use App\Services\MovieService;
 
@@ -22,7 +23,7 @@ class MovieController extends Controller
         list($movies, $count) = $this->movieService->getUserMovies();
 
         return response()->json([
-            'movies' => $movies,
+            'movies' => MovieCollectionResource::collection($movies),
             'count' => $count,
             'success' => true,
         ]);
@@ -43,7 +44,7 @@ class MovieController extends Controller
         }
 
         return response()->json([
-            'movie' => $movie,
+            'movie' => new MovieResource($movie),
             'message' => 'Movie created successfully',
         ]);
     }
@@ -56,7 +57,7 @@ class MovieController extends Controller
         $movie->load(['genres', 'quotes']);
 
         return response()->json([
-            'movie' => $movie,
+            'movie' => new MovieResource($movie),
             'success' => true,
         ]);
     }
@@ -75,7 +76,7 @@ class MovieController extends Controller
         }
 
         return response()->json([
-            'movie' => $movie,
+            'movie' => new MovieResource($movie),
             'success' => true,
         ]);
     }
