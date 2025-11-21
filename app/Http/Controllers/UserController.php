@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateProfileRequest;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
@@ -30,7 +31,7 @@ class UserController extends Controller
         $user->save();
 
         return response()->json([
-            'user' => $user,
+            'user' => new UserResource($user),
             'message' => 'Profile updated successfully',
             'success' => true,
         ]);
