@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
+use Spatie\MediaLibrary\HasMedia;
 
 if (!function_exists('uploadImage')) {
 
@@ -14,7 +15,7 @@ if (!function_exists('uploadImage')) {
      */
     function uploadImage(Model $model, UploadedFile $file, string $collectionName): void
     {
-        if ($model->hasMedia($collectionName)) {
+        if ($model instanceof HasMedia && $model->hasMedia($collectionName)) {
             $model->clearMediaCollection($collectionName);
         }
 
