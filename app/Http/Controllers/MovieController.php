@@ -17,7 +17,7 @@ class MovieController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): \Illuminate\Http\JsonResponse
     {
         list($movies, $count) = $this->movieService->getUserMovies();
 
@@ -31,7 +31,7 @@ class MovieController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(MovieRequest $request)
+    public function store(MovieRequest $request): \Illuminate\Http\JsonResponse
     {
         $validated = $request->validated();
         $validated['user_id'] = auth()->id();
@@ -51,7 +51,7 @@ class MovieController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Movie $movie)
+    public function show(Movie $movie): \Illuminate\Http\JsonResponse
     {
         $movie->load(['genres', 'quotes']);
 
@@ -64,7 +64,7 @@ class MovieController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateMovieRequest $request, string $id)
+    public function update(UpdateMovieRequest $request, string $id): \Illuminate\Http\JsonResponse
     {
         $validated = $request->validated();
 
@@ -83,7 +83,7 @@ class MovieController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Movie $movie)
+    public function destroy(Movie $movie): \Illuminate\Http\JsonResponse
     {
         $movie->delete();
 
