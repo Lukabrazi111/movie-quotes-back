@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MovieController;
+use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -36,4 +37,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/movies', [MovieController::class, 'store'])->name('movies.store');
     Route::put('/movies/{movie}', [MovieController::class, 'update'])->name('movies.update');
     Route::delete('/movies/{movie}', [MovieController::class, 'destroy'])->name('movies.destroy');
+
+    // Quotes
+    Route::get('/quotes', [QuoteController::class, 'index'])->name('quotes.index');
+    Route::get('/quotes/{quote}', [QuoteController::class, 'show'])->name('quotes.show');
+    Route::post('/movies/{movie}/quotes', [QuoteController::class, 'store'])->name('quotes.store');
 });

@@ -15,10 +15,10 @@ class MovieService
         $userId = auth()->id();
 
         $moviesQuery = QueryBuilder::for(Movie::class)
-            ->allowedIncludes(['quotes'])
-            ->withCount('quotes')
             ->where('user_id', $userId)
-            ->allowedFilters(['title', 'release_year']);
+            ->allowedFilters(['title', 'release_year'])
+            ->withCount('quotes');
+
 
         $moviesCount = Movie::where('user_id', $userId)->count();
 
@@ -34,7 +34,7 @@ class MovieService
 
         if ($request->hasFile('thumbnail')) {
             $file = $request->file('thumbnail');
-            $movie->addMedia($file)->toMediaCollection('movies/thumbnail');
+            $movie->addMedia($file)->toMediaCollection('movie/thumbnail');
         }
 
         return $movie;
