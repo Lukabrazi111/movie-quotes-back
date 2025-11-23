@@ -25,7 +25,7 @@ class MovieRequest extends FormRequest
             'title' => 'required|string|max:100|unique:movies,title',
             'description' => 'required|string|max:800',
             'director' => 'required|string',
-            'thumbnail' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'release_year' => 'required|string|date_format:Y',
         ];
     }

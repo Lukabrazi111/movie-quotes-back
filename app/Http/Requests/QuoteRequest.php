@@ -23,7 +23,7 @@ class QuoteRequest extends FormRequest
     {
         return [
             'description' => 'required|string|max:100',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ];
     }
 }
