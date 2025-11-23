@@ -12,7 +12,7 @@ class QuoteService
     public function getQuotes()
     {
         $quotesQuery = QueryBuilder::for(Quote::class)
-            ->with(['movie', 'user'])
+            ->with(['movie', 'user', 'comments'])
             ->withCount(['comments', 'likes'])
             ->allowedFilters(['description', 'movie.title']);
 

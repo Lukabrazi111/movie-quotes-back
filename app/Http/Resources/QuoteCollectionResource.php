@@ -24,6 +24,7 @@ class QuoteCollectionResource extends JsonResource
             'image' => $this->when($isImageExists, $this->image),
             'user' => new UserResource($this->whenLoaded('user')),
             'movie_title' => $this->whenLoaded('movie', fn() => $this->movie->title),
+            'comments' => $this->whenLoaded('comments'),
             'comments_count' => $this->comments_count,
             'likes_count' => $this->likes_count,
             'created_at' => $this->created_at,
