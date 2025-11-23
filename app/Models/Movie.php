@@ -50,7 +50,7 @@ class Movie extends Model implements HasMedia
     protected function thumbnail(): Attribute
     {
         return Attribute::make(
-            get: fn() => $this->getLastMediaUrl('movies/thumbnail'),
+            get: fn() => $this->getLastMediaUrl('movie/thumbnail'),
         );
     }
 }

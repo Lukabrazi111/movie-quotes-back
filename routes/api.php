@@ -21,6 +21,7 @@ Route::post('/resend-link/{id}', [AuthController::class, 'resendEmailVerificatio
 Route::post('/forgot-password', [ResetPasswordController::class, 'sendResetPassword'])->name('send-reset-password');
 Route::post('/reset-password/{token}', [ResetPasswordController::class, 'resetPassword'])->name('reset-password');
 Route::get('/reset-password/{token}', [ResetPasswordController::class, 'checkToken'])->name('reset-password.check-token');
+
 // User
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', function (Request $request) {
