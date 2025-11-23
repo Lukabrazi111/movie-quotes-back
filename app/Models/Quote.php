@@ -25,13 +25,6 @@ class Quote extends Model implements HasMedia
         'image'
     ];
 
-    protected function image(): Attribute
-    {
-        return Attribute::make(
-            get: fn() => $this->getLastMediaUrl('quote/image'),
-        );
-    }
-
     public function likes(): HasMany
     {
         return $this->hasMany(Like::class)->where('like', true);
@@ -50,5 +43,12 @@ class Quote extends Model implements HasMedia
     public function movie(): BelongsTo
     {
         return $this->belongsTo(Movie::class);
+    }
+
+    protected function image(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => $this->getLastMediaUrl('quote/image'),
+        );
     }
 }
