@@ -59,10 +59,8 @@ class ResetPasswordService
     private function changeUrl(string $token): string
     {
         $url = route('reset-password.check-token', $token);
-        $backUrl = config('app.url') . '/api';
-        $frontUrl = config('app.frontend_url');
 
-        return str_replace($backUrl, $frontUrl, $url);
+        return getFrontendUrl($url);
     }
 
     public function resetPassword(ResetPasswordRequest $request, array $validated): User|JsonResponse

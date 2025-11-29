@@ -50,6 +50,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // Comments | TODO: maybe need to add delete route
     Route::get('/quotes/{quote}/comments', [CommentController::class, 'index'])->name('comments.index');
     Route::post('/quotes/{quote}/comments', [CommentController::class, 'store'])->name('comments.store');
+    Route::delete('/quotes/{quote}/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
 
     // Likes
     Route::post('/quotes/{quote}/likes', [LikeController::class, 'store'])->name('likes.store');

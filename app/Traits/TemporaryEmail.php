@@ -15,26 +15,15 @@ trait TemporaryEmail
         Mail::to($user)->send(new $class($user->username, $tempUrl));
     }
 
-    public function createTempUrl(string $routeName, object $user): string
+    private function createTempUrl(string $routeName, object $user): string
     {
         $tempUrl = URL::temporarySignedRoute($routeName, now()->addMinutes(15), ['user' => $user->id]);
 
         /**
          * Extract query parameters (signature, expires, user) from the signed URL.
-         * The signature in Laravel is calculated based on the route path and parameters,
-         * not the domain. We extract the query params and construct a frontend-friendly URL.
+         * Construct a frontend-friendly URL.
          */
-        $parsedUrl = parse_url($tempUrl);
-
-        $queryParams = $parsedUrl['query'] ?? '';
-        $routePath = $parsedUrl['path'] ?? '';
-
-        // Remove /api prefix for frontend URL
-        $frontendPath = str_replace('/api', '', $routePath);
-
-        $frontUrl = rtrim(config('app.frontend_url'), '/');
-
-        return (string) $frontUrl . $frontendPath . '?' . $queryParams;
+        return getFrontendUrl($tempUrl);
     }
 
     /**

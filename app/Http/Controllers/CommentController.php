@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CommentRequest;
 use App\Http\Resources\CommentResource;
+use App\Models\Comment;
 use App\Models\Quote;
 use Illuminate\Http\Request;
 
@@ -36,5 +37,9 @@ class CommentController extends Controller
             'message' => 'Comment created successfully',
             'success' => true,
         ]);
+    }
+
+    public function destroy(Quote $quote, Comment $comment) {
+
     }
 }
