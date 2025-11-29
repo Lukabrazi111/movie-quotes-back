@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\LikeController;
 use App\Http\Controllers\MovieController;
 use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\ResetPasswordController;
@@ -44,4 +46,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/movies/{movie}/quotes', [QuoteController::class, 'store'])->name('quotes.store');
     Route::put('/quotes/{quote}', [QuoteController::class, 'update'])->name('quotes.update');
     Route::delete('/quotes/{quote}', [QuoteController::class, 'destroy'])->name('quotes.destroy');
+
+    // Comments | TODO: maybe need to add delete route
+    Route::get('/quotes/{quote}/comments', [CommentController::class, 'index'])->name('comments.index');
+    Route::post('/quotes/{quote}/comments', [CommentController::class, 'store'])->name('comments.store');
+
+    // Likes
+    Route::post('/quotes/{quote}/likes', [LikeController::class, 'store'])->name('likes.store');
 });

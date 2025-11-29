@@ -13,6 +13,10 @@ class Like extends Model
         'like'
     ];
 
+    protected $casts = [
+        'like' => 'boolean',
+    ];
+
     public function quote(): BelongsTo
     {
         return $this->belongsTo(Quote::class);
