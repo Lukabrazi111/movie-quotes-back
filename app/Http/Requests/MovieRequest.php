@@ -23,6 +23,8 @@ class MovieRequest extends FormRequest
     {
         return [
             'title' => 'required|string|max:100|unique:movies,title',
+            'genres' => 'required|array|min:1|distinct',
+            'genres.*' => 'required|string|exists:genres,name',
             'description' => 'required|string|max:800',
             'director' => 'required|string',
             'thumbnail' => 'required|image|mimes:jpeg,png,jpg|max:2048',

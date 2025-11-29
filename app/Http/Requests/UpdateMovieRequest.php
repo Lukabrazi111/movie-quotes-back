@@ -27,8 +27,8 @@ class UpdateMovieRequest extends FormRequest
             'director' => 'required|string',
             'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'release_year' => 'required|string|date_format:Y',
-            'genres' => 'nullable|array',
-            'genres.*' => 'exists:genres,name',
+            'genres' => 'required|array|min:1|distinct',
+            'genres.*' => 'required|string|exists:genres,name',
         ];
     }
 }

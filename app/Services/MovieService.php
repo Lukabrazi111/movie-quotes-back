@@ -30,11 +30,19 @@ class MovieService
 
     public function createMovie(array $data, MovieRequest $request): Movie
     {
+        $genres = $data['genres'] ?? [];
+        unset($data['genres']);
+
         $movie = Movie::create($data);
 
         if ($request->hasFile('thumbnail')) {
             $file = $request->file('thumbnail');
             $movie->addMedia($file)->toMediaCollection('movie/thumbnail');
+        }
+
+        if (!empty($genres)) {
+            $genreIds = Genre::whereIn('name', $genres)->pluck('id')->toArray();
+            $movie->genres()->attach($genreIds);
         }
 
         return $movie;
@@ -52,9 +60,10 @@ class MovieService
             uploadImage($movie, $request->file('thumbnail'), 'movie/thumbnail');
         }
 
-        $genreIds = Genre::whereIn('name', $validated['genres'])->pluck('id')->toArray();
-
-        $movie->genres()->syncWithoutDetaching($genreIds);
+        if (isset($validated['genres']) && !empty($validated['genres'])) {
+            $genreIds = Genre::whereIn('name', $validated['genres'])->pluck('id')->toArray();
+            $movie->genres()->sync($genreIds);
+        }
 
         $movie->update($validated);
 
