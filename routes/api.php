@@ -47,10 +47,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/quotes/{quote}', [QuoteController::class, 'update'])->name('quotes.update');
     Route::delete('/quotes/{quote}', [QuoteController::class, 'destroy'])->name('quotes.destroy');
 
-    // Comments | TODO: maybe need to add delete route
+    // Comments
     Route::get('/quotes/{quote}/comments', [CommentController::class, 'index'])->name('comments.index');
     Route::post('/quotes/{quote}/comments', [CommentController::class, 'store'])->name('comments.store');
-    Route::delete('/quotes/{quote}/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
+    Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
 
     // Likes
     Route::post('/quotes/{quote}/likes', [LikeController::class, 'store'])->name('likes.store');

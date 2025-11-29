@@ -39,7 +39,17 @@ class CommentController extends Controller
         ]);
     }
 
-    public function destroy(Quote $quote, Comment $comment) {
+    public function destroy(Comment $comment)
+    {
+        if ($comment->user_id !== auth()->id()) {
+            return response()->json(['message' => 'You can\'t delete this comment'], 403);
+        }
 
+        $comment->delete();
+
+        return response()->json([
+            'message' => 'Comment deleted successfully',
+            'success' => true,
+        ]);
     }
 }
