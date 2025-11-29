@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
+use App\Http\Resources\CommentResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class QuoteCollectionResource extends JsonResource
@@ -24,7 +25,7 @@ class QuoteCollectionResource extends JsonResource
             'image' => $this->when($isImageExists, $this->image),
             'user' => new UserResource($this->whenLoaded('user')),
             'movie_title' => $this->whenLoaded('movie', fn() => $this->movie->title),
-            'comments' => $this->whenLoaded('comments'),
+            'comments' => $this->whenLoaded('comments', fn() => CommentResource::collection($this->comments)),
             'comments_count' => $this->comments_count,
             'likes_count' => $this->likes_count,
             'created_at' => $this->created_at,
