@@ -73,4 +73,14 @@ class QuoteController extends Controller
             'success' => true,
         ]);
     }
+
+    public function destroy(Quote $quote): \Illuminate\Http\JsonResponse
+    {
+        $quote->delete();
+
+        return response()->json([
+            'message' => 'Quote deleted successfully',
+            'success' => true,
+        ]);
+    }
 }
