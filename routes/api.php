@@ -42,4 +42,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/quotes', [QuoteController::class, 'index'])->name('quotes.index');
     Route::get('/quotes/{quote}', [QuoteController::class, 'show'])->name('quotes.show');
     Route::post('/movies/{movie}/quotes', [QuoteController::class, 'store'])->name('quotes.store');
+    Route::put('/quotes/{quote}', [QuoteController::class, 'update'])->name('quotes.update');
 });

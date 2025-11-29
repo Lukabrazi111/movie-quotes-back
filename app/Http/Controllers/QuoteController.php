@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\QuoteRequest;
+use App\Http\Requests\UpdateQuoteRequest;
 use App\Http\Resources\QuoteCollectionResource;
 use App\Http\Resources\QuoteResource;
 use App\Models\Movie;
@@ -52,6 +53,23 @@ class QuoteController extends Controller
         return response()->json([
             'quote' => new QuoteResource($quote),
             'message' => 'Quote created successfully',
+            'success' => true,
+        ]);
+    }
+
+    public function update(UpdateQuoteRequest $request, Quote $quote): \Illuminate\Http\JsonResponse
+    {
+        $validated = $request->validated();
+
+        try {
+            $quote = $this->quoteService->updateQuote($quote, $request, $validated);
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()], $e->getCode());
+        }
+
+        return response()->json([
+            'quote' => new QuoteResource($quote),
+            'message' => 'Quote updated successfully',
             'success' => true,
         ]);
     }

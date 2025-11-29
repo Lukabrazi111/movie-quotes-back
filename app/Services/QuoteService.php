@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Http\Requests\QuoteRequest;
+use App\Http\Requests\UpdateQuoteRequest;
 use App\Models\Movie;
 use App\Models\Quote;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -23,9 +24,21 @@ class QuoteService
     {
         $quote = $movie->quotes()->create($data);
 
-        if ($request->has('image')) {
+        if ($request->hasFile('image')) {
             $file = $request->file('image');
-            $quote->addMedia($file)->toMediaCollection('quote/image');
+            uploadImage($quote, $file, 'quote/image');
+        }
+
+        return $quote;
+    }
+
+    public function updateQuote(Quote $quote, UpdateQuoteRequest $request, array $data): Quote
+    {
+        $quote->update($data);
+
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            uploadImage($quote, $file, 'quote/image');
         }
 
         return $quote;
