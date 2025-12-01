@@ -14,8 +14,6 @@ class MovieCollectionResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $isThumbnailExists = !is_null($this->thumbnail) && $this->thumbnail !== '';
-
         return [
             'id' => $this->id,
             'user_id' => $this->user_id,
@@ -23,8 +21,8 @@ class MovieCollectionResource extends JsonResource
             'description' => $this->description,
             'director' => $this->director,
             'release_year' => $this->release_year,
-            'thumbnail' => $this->when($isThumbnailExists, $this->thumbnail),
-            'quotes_count' => $this->quotes_count,
+            'thumbnail' => $this->thumbnail,
+            'quotes_count' => $this->whenCounted('quotes'),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

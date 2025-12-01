@@ -24,6 +24,7 @@ class MovieResource extends JsonResource
             'thumbnail' => $this->thumbnail,
             'quotes' => QuoteResource::collection($this->whenLoaded('quotes')),
             'genres' => GenreResource::collection($this->whenLoaded('genres')),
+            'quotes_count' => $this->whenCounted('quotes'),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

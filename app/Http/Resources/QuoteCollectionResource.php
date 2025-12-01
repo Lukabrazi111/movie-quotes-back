@@ -15,19 +15,18 @@ class QuoteCollectionResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $isImageExists = !is_null($this->image) && $this->image !== '';
 
         return [
             'id' => $this->id,
             'user_id' => $this->user_id,
             'movie_id' => $this->movie_id,
             'description' => $this->description,
-            'image' => $this->when($isImageExists, $this->image),
+            'image' => $this->image,
             'user' => new UserResource($this->whenLoaded('user')),
             'movie_title' => $this->whenLoaded('movie', fn() => $this->movie->title),
             'comments' => $this->whenLoaded('comments', fn() => CommentResource::collection($this->comments)),
-            'comments_count' => $this->comments_count,
-            'likes_count' => $this->likes_count,
+            'comments_count' => $this->whenCounted('comments'),
+            'likes_count' => $this->whenCounted('likes'),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

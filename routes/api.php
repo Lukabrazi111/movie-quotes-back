@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\GenreController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\MovieController;
 use App\Http\Controllers\QuoteController;
@@ -54,4 +55,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Likes
     Route::post('/quotes/{quote}/likes', [LikeController::class, 'store'])->name('likes.store');
+
+    // Genres
+    Route::get('/genres', [GenreController::class, 'index'])->name('genres.index');
 });
