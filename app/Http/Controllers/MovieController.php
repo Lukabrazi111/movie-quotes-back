@@ -55,7 +55,12 @@ class MovieController extends Controller
      */
     public function show(Movie $movie): \Illuminate\Http\JsonResponse
     {
-        $movie->load('quotes', 'genres')->loadCount('quotes');
+        $movie->load([
+            'quotes' => function ($query) {
+                $query->with('user')->withCount(['comments', 'likes']);
+            },
+            'genres',
+        ])->loadCount('quotes');
 
         return response()->json([
             'movie' => new MovieResource($movie),

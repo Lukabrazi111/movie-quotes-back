@@ -31,7 +31,7 @@ class QuoteController extends Controller
 
     public function show(Quote $quote)
     {
-        $quote->load(['user', 'movie', 'comments', 'likes']);
+        $quote->load(['user', 'movie'])->loadCount(['comments', 'likes']);
 
         return response()->json([
             'quote' => new QuoteResource($quote),
