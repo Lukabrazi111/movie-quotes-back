@@ -1,61 +1,156 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Movie Quotes API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A Laravel-based REST API backend for managing movies, quotes, comments, and user interactions.
 
-## About Laravel
+## Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **User Authentication**: Registration, login, logout with Laravel Sanctum
+- **Email Verification**: User email verification system
+- **Password Reset**: Forgot password and reset functionality
+- **Movies Management**: CRUD operations for movies with genres
+- **Quotes Management**: Create and manage quotes for movies
+- **Comments**: Add comments to quotes
+- **Likes**: Like/unlike quotes
+- **Media Handling**: Image uploads for movies and quotes using Spatie Media Library
+- **Query Filtering**: Advanced filtering using Spatie Query Builder
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Tech Stack
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **Framework**: Laravel 12
+- **PHP**: 8.2+
+- **Authentication**: Laravel Sanctum
+- **Database**: MySQL
+- **Media Library**: Spatie Laravel Media Library
+- **Query Builder**: Spatie Laravel Query Builder
+- **Testing**: Pest PHP
+- **Containerization**: Docker & Laravel Sail
 
-## Learning Laravel
+## Requirements
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- PHP 8.2 or higher
+- Composer
+- MySQL 8.0 or higher
+- Docker & Docker Compose (optional, for Sail)
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## Installation
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+1. Clone the repository:
+```bash
+git clone <repository-url>
+cd mq-back
+```
 
-## Laravel Sponsors
+2. Install dependencies:
+```bash
+composer install
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+3. Copy environment file:
+```bash
+cp .env.example .env
+```
 
-### Premium Partners
+4. Generate application key:
+```bash
+php artisan key:generate
+```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+5. Configure your `.env` file with database credentials and other settings.
 
-## Contributing
+6. Run migrations:
+```bash
+php artisan migrate
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+7. (Optional) Seed the database:
+```bash
+php artisan db:seed
+```
 
-## Code of Conduct
+## Using Docker (Laravel Sail)
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+1. Start the containers:
+```bash
+./vendor/bin/sail up -d
+```
 
-## Security Vulnerabilities
+2. Install dependencies:
+```bash
+./vendor/bin/sail composer install
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+3. Generate application key:
+```bash
+./vendor/bin/sail artisan key:generate
+```
+
+4. Run migrations:
+```bash
+./vendor/bin/sail artisan migrate
+```
+
+## API Endpoints
+
+### Authentication
+- `POST /api/register` - Register a new user
+- `POST /api/login` - Login user
+- `POST /api/logout` - Logout user (requires authentication)
+- `GET /api/verify` - Verify user email
+- `POST /api/resend-link/{id}` - Resend verification email
+- `POST /api/forgot-password` - Request password reset
+- `POST /api/reset-password/{token}` - Reset password
+
+### Movies (requires authentication)
+- `GET /api/movies` - Get all movies
+- `GET /api/movies/{movie}` - Get a specific movie
+- `POST /api/movies` - Create a new movie
+- `PUT /api/movies/{movie}` - Update a movie
+- `DELETE /api/movies/{movie}` - Delete a movie
+
+### Quotes (requires authentication)
+- `GET /api/quotes` - Get all quotes
+- `GET /api/quotes/{quote}` - Get a specific quote
+- `POST /api/movies/{movie}/quotes` - Create a quote for a movie
+- `PUT /api/quotes/{quote}` - Update a quote
+- `DELETE /api/quotes/{quote}` - Delete a quote
+
+### Comments (requires authentication)
+- `GET /api/quotes/{quote}/comments` - Get comments for a quote
+- `POST /api/quotes/{quote}/comments` - Add a comment to a quote
+- `DELETE /api/comments/{comment}` - Delete a comment
+
+### Likes (requires authentication)
+- `POST /api/quotes/{quote}/likes` - Like/unlike a quote
+
+### Genres (requires authentication)
+- `GET /api/genres` - Get all genres
+
+### User Profile (requires authentication)
+- `GET /api/user` - Get authenticated user
+- `PUT /api/profile` - Update user profile
+
+## Development
+
+Run the development server:
+```bash
+php artisan serve
+```
+
+Or with Sail:
+```bash
+./vendor/bin/sail up
+```
+
+Run tests:
+```bash
+php artisan test
+```
+
+Or with Sail:
+```bash
+./vendor/bin/sail artisan test
+```
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+The Movie-Quotes is open-sourced project.
