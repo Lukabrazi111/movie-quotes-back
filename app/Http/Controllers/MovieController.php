@@ -57,7 +57,7 @@ class MovieController extends Controller
     {
         $movie->load([
             'quotes' => function ($query) {
-                $query->with('user')->withCount(['comments', 'likes']);
+                $query->with('user')->orderBy('created_at', 'desc')->withCount(['comments', 'likes']);
             },
             'genres',
         ])->loadCount('quotes');

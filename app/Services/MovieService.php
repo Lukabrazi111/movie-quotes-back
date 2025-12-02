@@ -19,7 +19,6 @@ class MovieService
             ->allowedFilters(['title', 'release_year'])
             ->withCount('quotes');
 
-
         $moviesCount = Movie::where('user_id', $userId)->count();
 
         return [
