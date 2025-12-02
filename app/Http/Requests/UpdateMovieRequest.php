@@ -22,7 +22,7 @@ class UpdateMovieRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|string|max:100|unique:movies,title',
+            'title' => 'required|string|max:100',
             'description' => 'required|string|max:800',
             'director' => 'required|string',
             'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
