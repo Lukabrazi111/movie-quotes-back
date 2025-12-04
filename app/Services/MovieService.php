@@ -17,9 +17,9 @@ class MovieService
         $moviesQuery = QueryBuilder::for(Movie::class)
             ->where('user_id', $userId)
             ->allowedFilters(['title'])
-            ->withCount('quotes');
+            ->withCount(['quotes']);
 
-        $moviesCount = Movie::where('user_id', $userId)->count();
+        $moviesCount = $moviesQuery->count();
 
         return [
             $moviesQuery->get(),
