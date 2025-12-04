@@ -15,6 +15,18 @@ class MovieController extends Controller
     {
     }
 
+    public function getMovies(): \Illuminate\Http\JsonResponse
+    {
+        $movies = Movie::select('id', 'title')
+            ->orderBy('id', 'desc')
+            ->get();
+
+        return response()->json([
+            'movies' => $movies,
+            'success' => true,
+        ]);
+    }
+
     /**
      * Display a listing of the resource.
      */

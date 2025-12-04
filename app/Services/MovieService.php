@@ -22,7 +22,7 @@ class MovieService
         $moviesCount = $moviesQuery->count();
 
         return [
-            $moviesQuery->get(),
+            $moviesQuery->paginate(10),
             $moviesCount,
         ];
     }
