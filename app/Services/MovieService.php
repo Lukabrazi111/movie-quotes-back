@@ -19,7 +19,7 @@ class MovieService
             ->allowedFilters(['title'])
             ->withCount(['quotes']);
 
-        $moviesCount = $moviesQuery->count();
+        $moviesCount = Movie::where('user_id', $userId)->count();
 
         return [
             $moviesQuery->paginate(10),
