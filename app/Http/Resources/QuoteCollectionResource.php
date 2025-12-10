@@ -23,7 +23,10 @@ class QuoteCollectionResource extends JsonResource
             'description' => $this->description,
             'image' => $this->image,
             'user' => new UserResource($this->whenLoaded('user')),
-            'movie_title' => $this->whenLoaded('movie', fn() => $this->movie->title),
+            'movie' => $this->whenLoaded('movie', fn() => [
+                'title' => $this->movie->title,
+                'release_year' => $this->movie->release_year,
+            ]),
             'comments' => $this->whenLoaded('comments', fn() => CommentResource::collection($this->comments)),
             'comments_count' => $this->whenCounted('comments'),
             'likes_count' => $this->whenCounted('likes'),
