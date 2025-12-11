@@ -14,7 +14,7 @@ class QuoteService
     {
         $quotesQuery = QueryBuilder::for(Quote::class)
             ->orderBy('id', 'desc')
-            ->with(['movie', 'user', 'comments'])
+            ->with(['movie', 'user', 'comments', 'likes'])
             ->withCount(['comments', 'likes'])
             ->allowedFilters(['description', 'movie.title']);
 

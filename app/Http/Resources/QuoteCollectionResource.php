@@ -28,6 +28,7 @@ class QuoteCollectionResource extends JsonResource
                 'release_year' => $this->movie->release_year,
             ]),
             'comments' => $this->whenLoaded('comments', fn() => CommentResource::collection($this->comments)),
+            'likes' => $this->whenLoaded('likes', fn() => LikeResource::collection($this->likes)),
             'comments_count' => $this->whenCounted('comments'),
             'likes_count' => $this->whenCounted('likes'),
             'created_at' => $this->created_at,

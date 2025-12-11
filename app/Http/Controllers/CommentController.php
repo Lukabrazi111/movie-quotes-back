@@ -12,7 +12,7 @@ class CommentController extends Controller
 {
     public function index(Quote $quote)
     {
-        $comments = $quote->comments;
+        $comments = $quote->comments()->with('user')->latest()->get();
 
         return response()->json([
             'comments' => CommentResource::collection($comments),
