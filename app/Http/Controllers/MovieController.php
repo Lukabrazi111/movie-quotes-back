@@ -8,7 +8,7 @@ use App\Http\Resources\MovieCollectionResource;
 use App\Http\Resources\MovieResource;
 use App\Models\Movie;
 use App\Services\MovieService;
-
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 class MovieController extends Controller
 {
     public function __construct(private readonly MovieService $movieService)
@@ -30,12 +30,11 @@ class MovieController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): \Illuminate\Http\JsonResponse
+    public function index(): AnonymousResourceCollection
     {
         list($movies, $count) = $this->movieService->getUserMovies();
 
-        return response()->json([
-            'movies' => MovieCollectionResource::collection($movies),
+        return MovieCollectionResource::collection($movies)->additional([
             'count' => $count,
             'success' => true,
         ]);

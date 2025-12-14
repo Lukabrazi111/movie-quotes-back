@@ -22,7 +22,7 @@ class MovieService
         $moviesCount = Movie::where('user_id', $userId)->count();
 
         return [
-            $moviesQuery->paginate(10),
+            $moviesQuery->paginate(6),
             $moviesCount,
         ];
     }
