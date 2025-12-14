@@ -18,7 +18,7 @@ class QuoteService
             ->withCount(['comments', 'likes'])
             ->allowedFilters(['description', 'movie.title']);
 
-        return $quotesQuery->get();
+        return $quotesQuery->paginate(3);
     }
 
     public function createQuote(Movie $movie, QuoteRequest $request, array $data): Quote

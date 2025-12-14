@@ -14,8 +14,7 @@ class CommentController extends Controller
     {
         $comments = $quote->comments()->with('user')->latest()->paginate(4);
 
-        return response()->json([
-            'comments' => CommentResource::collection($comments),
+        return CommentResource::collection($comments)->additional([
             'success' => true,
         ]);
     }

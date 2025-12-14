@@ -23,8 +23,7 @@ class QuoteController extends Controller
     {
         $quotes = $this->quoteService->getQuotes();
 
-        return response()->json([
-            'quotes' => QuoteCollectionResource::collection($quotes),
+        return QuoteCollectionResource::collection($quotes)->additional([
             'success' => true,
         ]);
     }
